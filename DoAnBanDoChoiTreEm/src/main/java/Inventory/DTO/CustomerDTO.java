@@ -1,73 +1,59 @@
+// Customer.java
 package Inventory.DTO;
 
-import java.util.Random;
+public class CustomerDTO {
+    private int id;
+    private String name;
+    private String email;
+    private String address;
+    private String sdt;
 
-public abstract class CustomerDTO {
-    private String custName, custPhone, custAddress, custEmail;
-    private int custID;
-
-    public CustomerDTO(String cusName, String cusPhone, String cusAddress, String cusEmail, int cusID) {
-        this.custName = cusName;
-        this.custPhone = cusPhone;
-        this.custAddress = cusAddress;
-        this.custEmail = cusEmail;
-        this.custID = cusID;
-    }
-    
-        public CustomerDTO(){}
-
-    public String getCusName() {
-        return custName;
+    public CustomerDTO(int id, String name, String email, String address, String sdt) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.sdt = sdt;
     }
 
-    public void setCustName(String custName) {
-        this.custName = custName;
+    // getters and setters
+    public int getId() {
+        return id;
     }
 
-    public String getCustPhone() {
-        return custPhone;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setCustPhone(String custPhone) {
-        this.custPhone = custPhone;
+    public String getName() {
+        return name;
     }
 
-    public String getCustAddress() {
-        return custAddress;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setCustAddress(String custAddress) {
-        this.custAddress = custAddress;
+    public String getEmail() {
+        return email;
     }
 
-    public String getCusEmail() {
-        return custEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setCusEmail(String custEmail) {
-        this.custEmail = custEmail;
+    public String getAddress() {
+        return address;
     }
 
-    public int getCustID() {
-        return custID;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setCusID(int custID) {
-        this.custID = custID;
+    public String getSdt() {
+        return sdt;
     }
-    
-    public String GenerateUID() {
-        Random rd = new Random();
-        //String UID = "";
-        StringBuilder UID = new StringBuilder();
-        String characters = "abcdefghijklmnoqprstuvwxyzABCDEFGHIJKLMNOPQRSTUVwXYZ0123456789!@#$%&";
-        int i = 8; //UID chu 8 ky tu
-        while (i-- > 0) {
-            //UID = UID.concat(String.valueOf(characters.charAt(rd.nextInt(characters.length()))));
-            UID.append(characters.charAt(rd.nextInt(characters.length())));
-        }
-        //return UID;
-        return UID.toString();
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
     }
-    
 }
