@@ -1,85 +1,150 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+// CustomerPage.java
 package Demo.Customer;
+
+import Bus.CustomerBUS;
+import Inventory.DTO.CustomerDTO;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.ArrayList;
 
-/**
- *
- * @author Admin
- */
-public class CustomerPage extends javax.swing.JPanel {
+public class CustomerPage extends JPanel {
+    private DefaultTableModel tableModel;
+    private JTable customerTable;
+    private JTextField nameField, emailField, addressField, sdtField, searchField;
+    private JButton addButton, removeButton, searchButton, cancelButton, editButton, saveButton;
+    private int editingCustomerId = -1; // ID của khách hàng đang được chỉnh sửa
+    private CustomerBUS bus = new CustomerBUS();
 
-    /**
-     * Creates new form CustomerPage
-     */
     public CustomerPage() {
-        initComponents();
+        super();
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        JLabel titleLabel = new JLabel("Khách hàng");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        add(Box.createVerticalStrut(20));
+        add(titleLabel);
+        add(Box.createVerticalStrut(20));
+
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("ID");
+        tableModel.addColumn("Name");
+        tableModel.addColumn("Email");
+        tableModel.addColumn("Address");
+        tableModel.addColumn("SDT");
+
+        customerTable = new JTable(tableModel);
+
+        nameField = new JTextField(20);
+        emailField = new JTextField(20);
+        addressField = new JTextField(20);
+        sdtField = new JTextField(10);
+        searchField = new JTextField(20);
+        addButton = new JButton("Add");
+        removeButton = new JButton("Remove");
+        searchButton = new JButton("Search");
+        cancelButton = new JButton("Cancel");
+        editButton = new JButton("Edit");
+        saveButton = new JButton("Save");
+
+        JPanel inputPanel = new JPanel();
+        inputPanel.add(new JLabel("Name:"));
+        inputPanel.add(nameField);
+        inputPanel.add(new JLabel("Email:"));
+        inputPanel.add(emailField);
+        inputPanel.add(new JLabel("Address:"));
+        inputPanel.add(addressField);
+        inputPanel.add(new JLabel("SDT:"));
+        inputPanel.add(sdtField);
+        inputPanel.add(addButton);
+        inputPanel.add(removeButton);
+        inputPanel.add(editButton);
+        inputPanel.add(new JLabel("Search:"));
+        inputPanel.add(searchField);
+        inputPanel.add(searchButton);
+        inputPanel.add(cancelButton);
+        inputPanel.add(saveButton);
+
+        addButton.addActionListener(e -> {
+            CustomerDTO newCustomer = new CustomerDTO(0, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
+            bus.addCustomer(newCustomer);
+            loadAllCustomers();
+        });
+
+        removeButton.addActionListener(e -> {
+            int selectedRow = customerTable.getSelectedRow();
+            if (selectedRow != -1) {
+                String id = customerTable.getValueAt(selectedRow, 0).toString();
+                bus.removeCustomer(Integer.parseInt(id));
+                loadAllCustomers();
+            }
+        });
+
+        editButton.addActionListener(e -> {
+            int selectedRow = customerTable.getSelectedRow();
+            if (selectedRow != -1) {
+                editingCustomerId = Integer.parseInt(customerTable.getValueAt(selectedRow, 0).toString());
+                nameField.setText(customerTable.getValueAt(selectedRow, 1).toString());
+                emailField.setText(customerTable.getValueAt(selectedRow, 2).toString());
+                addressField.setText(customerTable.getValueAt(selectedRow, 3).toString());
+                sdtField.setText(customerTable.getValueAt(selectedRow, 4).toString());
+            }
+        });
+
+        saveButton.addActionListener(e -> {
+            if (editingCustomerId != -1) {
+                CustomerDTO updatedCustomer = new CustomerDTO(editingCustomerId, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
+                bus.updateCustomer(updatedCustomer);
+                loadAllCustomers();
+                editingCustomerId = -1;
+            }
+        });
+
+        searchButton.addActionListener(e -> {
+            String keyword = searchField.getText();
+            loadCustomersByKeyword(keyword);
+        });
+
+        cancelButton.addActionListener(e -> {
+            loadAllCustomers();
+        });
+
+        JScrollPane scrollPane = new JScrollPane(customerTable);
+
+        add(inputPanel);
+        add(Box.createVerticalStrut(20));
+        add(scrollPane);
+
+        loadAllCustomers();
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void loadAllCustomers() {
+        // Xóa tất cả các hàng hiện có
+        tableModel.setRowCount(0);
 
-        jScrollBar1 = new javax.swing.JScrollBar();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        // Tải lại danh sách khách hàng từ cơ sở dữ liệu
+        ArrayList<CustomerDTO> customers = bus.getAllCustomers();
+        for (CustomerDTO customer : customers) {
+            String[] rowData = {String.valueOf(customer.getId()), customer.getName(), customer.getEmail(), customer.getAddress(), customer.getSdt()};
+            tableModel.addRow(rowData);
+        }
+    }
 
-        setBackground(new java.awt.Color(255, 255, 255));
-        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(1075, 700));
-        setPreferredSize(new java.awt.Dimension(1075, 700));
+    private void loadCustomersByKeyword(String keyword) {
+        // Xóa tất cả các hàng hiện có
+        tableModel.setRowCount(0);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        // Tải lại danh sách khách hàng từ cơ sở dữ liệu
+        ArrayList<CustomerDTO> customers = bus.getCustomersByKeyword(keyword);
+        for (CustomerDTO customer : customers) {
+            String[] rowData = {String.valueOf(customer.getId()), customer.getName(), customer.getEmail(), customer.getAddress(), customer.getSdt()};
+            tableModel.addRow(rowData);
+        }
+    }
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Khách hàng");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1078, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-    }// </editor-fold>//GEN-END:initComponents
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollBar jScrollBar1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    // End of variables declaration//GEN-END:variables
+    public JTable getCustomerTable() {
+        return customerTable;
+    }
 }
