@@ -2,21 +2,21 @@
 package Bus;
 
 import Inventory.DAO.CustomerDAO;
-import Inventory.Entity.Customer;
+import Inventory.DTO.CustomerDTO;
 import java.util.ArrayList;
 
 public class CustomerBUS {
     private CustomerDAO dao = new CustomerDAO();
 
-    public ArrayList<Customer> getAllCustomers() {
+    public ArrayList<CustomerDTO> getAllCustomers() {
         return dao.getAllCustomers();
     }
 
-    public ArrayList<Customer> getCustomersByKeyword(String keyword) {
+    public ArrayList<CustomerDTO> getCustomersByKeyword(String keyword) {
         return dao.getCustomersByKeyword(keyword);
     }
 
-    public void addCustomer(Customer customer) {
+    public void addCustomer(CustomerDTO customer) {
         dao.addCustomer(customer);
     }
 
@@ -24,7 +24,7 @@ public class CustomerBUS {
         dao.removeCustomer(id);
     }
 
-    public void updateCustomer(Customer customer) {
+    public void updateCustomer(CustomerDTO customer) {
         dao.updateCustomer(customer);
     }
 }
