@@ -2,7 +2,7 @@
 package Demo.Customer;
 
 import Bus.CustomerBUS;
-import Inventory.Entity.Customer;
+import Inventory.DTO.CustomerDTO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -68,7 +68,7 @@ public class CustomerPage extends JPanel {
         inputPanel.add(saveButton);
 
         addButton.addActionListener(e -> {
-            Customer newCustomer = new Customer(0, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
+            CustomerDTO newCustomer = new CustomerDTO(0, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
             bus.addCustomer(newCustomer);
             loadAllCustomers();
         });
@@ -95,7 +95,7 @@ public class CustomerPage extends JPanel {
 
         saveButton.addActionListener(e -> {
             if (editingCustomerId != -1) {
-                Customer updatedCustomer = new Customer(editingCustomerId, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
+                CustomerDTO updatedCustomer = new CustomerDTO(editingCustomerId, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
                 bus.updateCustomer(updatedCustomer);
                 loadAllCustomers();
                 editingCustomerId = -1;
@@ -125,8 +125,8 @@ public class CustomerPage extends JPanel {
         tableModel.setRowCount(0);
 
         // Tải lại danh sách khách hàng từ cơ sở dữ liệu
-        ArrayList<Customer> customers = bus.getAllCustomers();
-        for (Customer customer : customers) {
+        ArrayList<CustomerDTO> customers = bus.getAllCustomers();
+        for (CustomerDTO customer : customers) {
             String[] rowData = {String.valueOf(customer.getId()), customer.getName(), customer.getEmail(), customer.getAddress(), customer.getSdt()};
             tableModel.addRow(rowData);
         }
@@ -137,8 +137,8 @@ public class CustomerPage extends JPanel {
         tableModel.setRowCount(0);
 
         // Tải lại danh sách khách hàng từ cơ sở dữ liệu
-        ArrayList<Customer> customers = bus.getCustomersByKeyword(keyword);
-        for (Customer customer : customers) {
+        ArrayList<CustomerDTO> customers = bus.getCustomersByKeyword(keyword);
+        for (CustomerDTO customer : customers) {
             String[] rowData = {String.valueOf(customer.getId()), customer.getName(), customer.getEmail(), customer.getAddress(), customer.getSdt()};
             tableModel.addRow(rowData);
         }
