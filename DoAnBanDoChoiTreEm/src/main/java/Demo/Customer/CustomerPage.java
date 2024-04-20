@@ -1,4 +1,3 @@
-// CustomerPage.java
 package Demo.Customer;
 
 import Bus.CustomerBUS;
@@ -21,7 +20,8 @@ public class CustomerPage extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JLabel titleLabel = new JLabel("Khách hàng");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(Color.BLUE);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         add(Box.createVerticalStrut(20));
@@ -50,6 +50,9 @@ public class CustomerPage extends JPanel {
         saveButton = new JButton("Save");
 
         JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(5, 2, 10, 10)); // Use a grid layout
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
+
         inputPanel.add(new JLabel("Name:"));
         inputPanel.add(nameField);
         inputPanel.add(new JLabel("Email:"));
@@ -58,14 +61,20 @@ public class CustomerPage extends JPanel {
         inputPanel.add(addressField);
         inputPanel.add(new JLabel("SDT:"));
         inputPanel.add(sdtField);
-        inputPanel.add(addButton);
-        inputPanel.add(removeButton);
-        inputPanel.add(editButton);
-        inputPanel.add(new JLabel("Search:"));
-        inputPanel.add(searchField);
-        inputPanel.add(searchButton);
-        inputPanel.add(cancelButton);
-        inputPanel.add(saveButton);
+
+        // Create a panel for the buttons and use a flow layout
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(addButton);
+        buttonPanel.add(removeButton);
+        buttonPanel.add(editButton);
+        buttonPanel.add(saveButton);
+
+        // Create a panel for the search field and button
+        JPanel searchPanel = new JPanel(new FlowLayout());
+        searchPanel.add(new JLabel("Search:"));
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+        searchPanel.add(cancelButton);
 
         addButton.addActionListener(e -> {
             CustomerDTO newCustomer = new CustomerDTO(0, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
@@ -114,6 +123,8 @@ public class CustomerPage extends JPanel {
         JScrollPane scrollPane = new JScrollPane(customerTable);
 
         add(inputPanel);
+        add(buttonPanel);
+        add(searchPanel);
         add(Box.createVerticalStrut(20));
         add(scrollPane);
 
