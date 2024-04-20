@@ -15,25 +15,24 @@ public class tables {
             st = con.createStatement();
             ResultSet rs = st.executeQuery("SHOW TABLES LIKE 'nguoidung'");
             if (!rs.next()) {
-                st.executeUpdate("create table nguoidung(id int AUTO_INCREMENT primary key,vaiTro varchar(50),ten varchar(200),sdt varchar(50),email varchar(200),matKhau varchar(50), diaChi varchar(200),status varchar(50))");
+                st.executeUpdate("create table nguoidung(id int AUTO_INCREMENT primary key,vaiTro varchar(50),ten varchar(200),sdt varchar(50),email varchar(200),matKhau varchar(50), diaChi varchar(200),status int DEFAULT 1)");
             }
-            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi,status) values('QuanLy','Quan Ly','12345','ad','admin','Vietnam','true')");
-            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi,status) values('Nhan Vien','Sang','123456','nv1','password1','Vietnam','true')");
-            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi,status) values('Nhan Vien','Quốc','123457','nv2','password2','Vietnam','true')");
-            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi,status) values('Nhan Vien','Thịnh','123458','nv3','password3','Vietnam','true')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('QuanLy','Quan Ly','12345','ad','admin','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Sang','123456','nv1','password1','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Quốc','123457','nv2','password2','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Thịnh','123458','nv3','password3','Vietnam')");
 
             rs = st.executeQuery("SHOW TABLES LIKE 'khachhang'");
             if (!rs.next()) {
-                st.executeUpdate("create table khachhang(id int AUTO_INCREMENT primary key, ten varchar(200), email varchar(200), diaChi varchar(200), sdt varchar(50))");
+                st.executeUpdate("create table khachhang(id int AUTO_INCREMENT primary key, ten varchar(200), email varchar(200), diaChi varchar(200), sdt varchar(50), status int DEFAULT 1)");
             }
             for (int i = 1; i <= 10; i++) {
                 st.executeUpdate("insert into khachhang (ten, email, diaChi, sdt) values('Khach Hang " + i + "','kh" + i + "@mail.com','Dia Chi " + i + "','12345" + i + "')");
             }
             rs = st.executeQuery("SHOW TABLES LIKE 'sanpham'");
             if (!rs.next()) {
-                st.executeUpdate("create table sanpham(id int AUTO_INCREMENT primary key, ten varchar(200), xuatxu varchar(200), gia decimal(10,2), soluong int)");
+                st.executeUpdate("create table sanpham(id int AUTO_INCREMENT primary key, ten varchar(200), xuatxu varchar(200), gia decimal(10,2), soluong int, theloai varchar(200), status int DEFAULT 1)");
             }
-            st.executeUpdate("ALTER TABLE sanpham ADD COLUMN theloai varchar(200)");
             // Đồ chơi phương tiện
             for (int i = 1; i <= 10; i++) {
                 st.executeUpdate("insert into sanpham (ten, xuatxu, gia, soluong, theloai) values('Do Choi Phuong Tien " + i + "', 'Vietnam', 100.00, 10, 'Do Choi Phuong Tien')");
