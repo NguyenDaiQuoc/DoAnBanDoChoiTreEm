@@ -1,27 +1,33 @@
-package BUS.Employee;
+package Demo.Employee;
 
 import Inventory.DTO.StaffDTO;
+import Database.ConnectionProvider;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 // Tạo lớp con kế thừa từ JPanel
 public class EmployeePage extends JPanel {
-
+    Connection con;
     private DefaultTableModel tableModel;
     private JTable employeeTable;
-    private JTextField nameField, ageField, emailField, addressField, phoneField, searchField;
+    private JTextField nameField, ageField, emailField, addressField, phoneField, positionField, searchField;
     private JButton refreshButton, addButton, removeButton, editButton, saveButton, searchButton, cancelButton;
-    private int staTotal = 11, staIDEdit = -1;
+    private int staTotal = 0, staIDEdit = -1;
     private EmployeeBUS bus = new EmployeeBUS();
 
     public EmployeePage() {
         // Gọi constructor của lớp cha (JPanel)
         super();
-
+        
+        con = ConnectionProvider.getCon();
         // Sử dụng BoxLayout để căn giữa các thành phần
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -43,17 +49,19 @@ public class EmployeePage extends JPanel {
         tableModel.addColumn("Email");
         tableModel.addColumn("Address");
         tableModel.addColumn("Phone");
+        tableModel.addColumn("Position");
 
         // Khởi tạo JTable với tableModel
         employeeTable = new JTable(tableModel);
 
         // Tạo các trường nhập liệu và nút 
         nameField = new JTextField(15);
-        ageField = new JTextField(10);
-        searchField = new JTextField(15);
-        emailField = new JTextField(15);
+        ageField = new JTextField(5);
+        searchField = new JTextField(10);
+        emailField = new JTextField(10);
         addressField = new JTextField(15);
         phoneField = new JTextField(10);
+        positionField = new JTextField(10);
         refreshButton = new JButton("Refresh");
         addButton = new JButton("Add");
         removeButton = new JButton("Remove");
@@ -74,6 +82,8 @@ public class EmployeePage extends JPanel {
         inputPanel.add(addressField);
         inputPanel.add(new JLabel("Phone"));
         inputPanel.add(phoneField);
+        inputPanel.add(new JLabel("Position"));
+        inputPanel.add(positionField);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(new JPanel());
@@ -90,13 +100,27 @@ public class EmployeePage extends JPanel {
         searchPanel.add(cancelButton);
 
         // Thêm sự kiện cho nút thêm
-        addButton.addActionListener(e -> {
-            int age = Integer.parseInt(ageField.getText());
-            StaffDTO newStaff = new StaffDTO(staTotal, nameField.getText(), age, emailField.getText(), addressField.getText(), phoneField.getText());
+        addButton.addActionListener(e -> {            
+            int age = Integer.parseInt(ageField.getText());            
+            staTotal++;
+            StaffDTO newStaff = new StaffDTO(staTotal, nameField.getText(), age, emailField.getText(), addressField.getText(), phoneField.getText(), "Thu Ngan");
+            try {
+                String query = "INSERT INTO nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) VALUES (?, ?, ?, ?, ?, ?)";
+                PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, "Nhan Vien");
+                ps.setString(2, newStaff.getStaName());
+                ps.setString(3, newStaff.getStaPhone());
+                ps.setString(4, newStaff.getStaEmail());
+                ps.setString(5,"123");
+                ps.setString(6, newStaff.getStaAddress());
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                System.out.println("Lỗi SQL: " + ex.getMessage());
+            }
             bus.addStaff(newStaff);
             loadAllStaffs();
-            staTotal++;
             clearFields();
+
         });
 
         // Thêm sự kiện cho nút xóa
@@ -132,7 +156,7 @@ public class EmployeePage extends JPanel {
         saveButton.addActionListener(e -> {
             int age = Integer.parseInt(ageField.getText());
             if (staIDEdit != -1) {
-                StaffDTO updatedStaff = new StaffDTO(staIDEdit, nameField.getText(), age, emailField.getText(), addressField.getText(), phoneField.getText());
+                StaffDTO updatedStaff = new StaffDTO(staIDEdit, nameField.getText(), age, emailField.getText(), addressField.getText(), phoneField.getText(), positionField.getText());
                 bus.updateStaff(updatedStaff);
                 loadAllStaffs();
                 staIDEdit = -1;
@@ -190,7 +214,7 @@ public class EmployeePage extends JPanel {
         // Tải lại danh sách khách hàng từ cơ sở dữ liệu
         ArrayList<StaffDTO> staffs = bus.getAllStaffs();
         for (StaffDTO staff : staffs) {
-            String[] rowData = {String.valueOf(staff.getStaID()), staff.getStaName(), String.valueOf(staff.getStaAge()), staff.getStaEmail(), staff.getStaAddress(), staff.getStaPhone()};
+            String[] rowData = {String.valueOf(staff.getStaID()), staff.getStaName(), String.valueOf(staff.getStaAge()), staff.getStaEmail(), staff.getStaAddress(), staff.getStaPhone(), staff.getStaRole()};
             tableModel.addRow(rowData);
         }
     }
