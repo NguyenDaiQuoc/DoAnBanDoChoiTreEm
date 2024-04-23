@@ -33,6 +33,14 @@ public class tables {
             if (!rs.next()) {
                 st.executeUpdate("create table sanpham(id int AUTO_INCREMENT primary key, ten varchar(200), xuatxu varchar(200), gia decimal(10,2), soluong int, theloai varchar(200), status int DEFAULT 1)");
             }
+            rs = st.executeQuery("SHOW TABLES LIKE 'nhanvien'");
+            if (!rs.next()) {
+                st.executeUpdate("CREATE TABLE nhanvien(id INT AUTO_INCREMENT PRIMARY KEY, ten VARCHAR(200), tuoi INT, email VARCHAR(200), diaChi VARCHAR(200), sdt VARCHAR(50), status INT DEFAULT 1)");
+            }
+            for (int i = 1; i <= 10; i++) {
+                st.executeUpdate("INSERT INTO nhanvien (ten, tuoi, email, diaChi, sdt) VALUES ('Nhan Vien " + i + "', " + (20 + i) + ", 'nv" + i + "@mail.com', 'Dia Chi " + i + "', '12345" + i + "')");
+            }
+
             // Đồ chơi phương tiện
             for (int i = 1; i <= 10; i++) {
                 st.executeUpdate("insert into sanpham (ten, xuatxu, gia, soluong, theloai) values('Do Choi Phuong Tien " + i + "', 'Vietnam', 100.00, 10, 'Do Choi Phuong Tien')");
