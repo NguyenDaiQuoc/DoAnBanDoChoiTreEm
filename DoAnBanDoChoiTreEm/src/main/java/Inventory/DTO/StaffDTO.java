@@ -1,20 +1,27 @@
 package Inventory.DTO;
 
 public class StaffDTO {
-    private int staStatus, staID;
+    private int staID, staAge;
     private String staRole, staName, staEmail, staPhone, staAddress;
     
     public StaffDTO(){}
 
-    public StaffDTO(int staID, String staName, String staEmail, String staPhone, String staAddress) {
+    public StaffDTO(int staID, String staName,int staAge, String staEmail, String staPhone, String staAddress) {
         this.staID = staID;
         this.staName = staName;
+        this.staAge = staAge;
         this.staEmail = staEmail;
         this.staPhone = staPhone;
         this.staAddress = staAddress;
     }
 
+    public int getStaAge() {
+        return staAge;
+    }
 
+    public void setStaAge(int staAge) {
+        this.staAge = staAge;
+    }  
 
     public String getStaAddress() {
         return staAddress;
@@ -56,16 +63,6 @@ public class StaffDTO {
 
     public void setStaPhone(String staPhone) {
         this.staPhone = staPhone;
-    }
-
-    
-  
-    public int getStaStatus() {
-        return staStatus;
-    }
-
-    public void setStaStatus(int staStatus) {
-        this.staStatus = staStatus;
     }
 
     public String getStaRole() {
