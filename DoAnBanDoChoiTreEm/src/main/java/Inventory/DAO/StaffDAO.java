@@ -20,7 +20,7 @@ public class StaffDAO {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM nhanvien WHERE status = 1");
             while (rs.next()) {
-                staff.add(new StaffDTO(rs.getInt("id"), rs.getString("ten"), rs.getInt("tuoi"), rs.getString("email"), rs.getString("diaChi"),rs.getString("sdt")));
+                staff.add(new StaffDTO(rs.getInt("id"), rs.getString("ten"), rs.getInt("tuoi"), rs.getString("email"), rs.getString("diaChi"),rs.getString("sdt"),rs.getString("vaiTro")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,7 +39,7 @@ public class StaffDAO {
             pst.setString(4, "%" + keyword + "%");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                staff.add(new StaffDTO(rs.getInt("id"), rs.getString("ten"), rs.getInt("tuoi"), rs.getString("email"), rs.getString("diaChi"),rs.getString("sdt")));
+                staff.add(new StaffDTO(rs.getInt("id"), rs.getString("ten"), rs.getInt("tuoi"), rs.getString("email"), rs.getString("diaChi"),rs.getString("sdt"),rs.getString("vaiTro")));
             }
         } catch (Exception e) {
             e.printStackTrace();
