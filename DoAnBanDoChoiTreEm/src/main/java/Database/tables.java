@@ -18,9 +18,10 @@ public class tables {
                 st.executeUpdate("create table nguoidung(id int AUTO_INCREMENT primary key,vaiTro varchar(50),ten varchar(200),sdt varchar(50),email varchar(200),matKhau varchar(50), diaChi varchar(200),status int DEFAULT 1)");
             }
             st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('QuanLy','Quan Ly','12345','ad','admin','Vietnam')");
-            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Sang','123456','nv1','password1','Vietnam')");
-            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Quốc','123457','nv2','password2','Vietnam')");
-            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Thịnh','123458','nv3','password3','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Tuấn','123456','tuan','090904','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Sang','123456','sang','091204','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Quốc','123457','quoc','230104','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Thịnh','123458','thinh','123456','Vietnam')");
 
             rs = st.executeQuery("SHOW TABLES LIKE 'khachhang'");
             if (!rs.next()) {
@@ -35,10 +36,7 @@ public class tables {
             }
             rs = st.executeQuery("SHOW TABLES LIKE 'nhanvien'");
             if (!rs.next()) {
-                st.executeUpdate("CREATE TABLE nhanvien(id INT AUTO_INCREMENT PRIMARY KEY, ten VARCHAR(200), tuoi INT, email VARCHAR(200), diaChi VARCHAR(200), sdt VARCHAR(50), status INT DEFAULT 1)");
-            }
-            for (int i = 1; i <= 10; i++) {
-                st.executeUpdate("INSERT INTO nhanvien (ten, tuoi, email, diaChi, sdt) VALUES ('Nhan Vien " + i + "', " + (20 + i) + ", 'nv" + i + "@mail.com', 'Dia Chi " + i + "', '12345" + i + "')");
+                st.executeUpdate("CREATE TABLE nhanvien(id INT AUTO_INCREMENT PRIMARY KEY, ten VARCHAR(200), tuoi INT, email VARCHAR(200), diaChi VARCHAR(200), sdt VARCHAR(50),vaiTro VARCHAR(20) DEFAULT 'thungan', status INT DEFAULT 1)");
             }
 
             // Đồ chơi phương tiện
