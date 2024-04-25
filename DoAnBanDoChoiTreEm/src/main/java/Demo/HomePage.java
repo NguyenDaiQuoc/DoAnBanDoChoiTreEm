@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package GUI;
-import GUI.LoginPage;
-import BUS.Employee.EmployeePage;
-import BUS.Customer.CustomerPage;
-import BUS.Product.ProductPage;
+package Demo;
+import Demo.LoginPage;
+import Demo.Employee.EmployeePage;
+import Demo.Customer.CustomerPage;
+import Demo.Product.ProductPage;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
