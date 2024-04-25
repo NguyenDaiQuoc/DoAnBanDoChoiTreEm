@@ -18,9 +18,10 @@ public class tables {
                 st.executeUpdate("create table nguoidung(id int AUTO_INCREMENT primary key,vaiTro varchar(50),ten varchar(200),sdt varchar(50),email varchar(200),matKhau varchar(50), diaChi varchar(200),status int DEFAULT 1)");
             }
             st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('QuanLy','Quan Ly','12345','ad','admin','Vietnam')");
-            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Sang','123456','nv1','password1','Vietnam')");
-            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Quốc','123457','nv2','password2','Vietnam')");
-            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Thịnh','123458','nv3','password3','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Tuấn','123456','tuan','090904','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Sang','123456','sang','091204','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Quốc','123457','quoc','230104','Vietnam')");
+            st.executeUpdate("insert into nguoidung (vaiTro,ten,sdt,email,matKhau,diaChi) values('Nhan Vien','Thịnh','123458','thinh','123456','Vietnam')");
 
             rs = st.executeQuery("SHOW TABLES LIKE 'khachhang'");
             if (!rs.next()) {
@@ -29,7 +30,7 @@ public class tables {
             for (int i = 1; i <= 10; i++) {
                 st.executeUpdate("insert into khachhang (ten, email, diaChi, sdt) values('Khach Hang " + i + "','kh" + i + "@mail.com','Dia Chi " + i + "','12345" + i + "')");
             }
-            rs = st.executeQuery("SHOW TABLES LIKE 'sanpham'");
+                  rs = st.executeQuery("SHOW TABLES LIKE 'sanpham'");
             if (!rs.next()) {
                 st.executeUpdate("create table sanpham(id int AUTO_INCREMENT primary key, ten varchar(200), xuatxu varchar(200), gia decimal(10,2), soluong int, theloai varchar(200), status int DEFAULT 1)");
             }
@@ -112,6 +113,16 @@ public class tables {
             st.executeUpdate("insert into Robot (ten, xuatxu, gia, soluong, loaiRobot) values('Chú robot quản gia thông thái xanh dương', 'Vietnam', 599000, 10, 'Butler')");
             st.executeUpdate("insert into Robot (ten, xuatxu, gia, soluong, loaiRobot) values('Cú con Owleez học bay trắng', 'Vietnam', 509000, 10, 'Owl')");
             st.executeUpdate("insert into Robot (ten, xuatxu, gia, soluong, loaiRobot) values('Xe điều khiển biến hình Mercedes-Benz đỏ', 'Vietnam', 509000, 10, 'Transforming Car')");
+
+            rs = st.executeQuery("SHOW TABLES LIKE 'nhanvien'");
+            if (!rs.next()) {
+                st.executeUpdate("CREATE TABLE nhanvien(id INT AUTO_INCREMENT PRIMARY KEY, ten VARCHAR(200), tuoi INT, email VARCHAR(200), diaChi VARCHAR(200), sdt VARCHAR(50),vaiTro VARCHAR(20) DEFAULT 'Thu Ngan', status INT DEFAULT 1)");
+            }
+            st.executeUpdate("insert into nhanvien (id,ten,tuoi,email,diaChi,sdt,vaiTro) values(1,'Quan Ly',20,'ad','Vietnam','12345','Quan Ly')");
+            st.executeUpdate("insert into nhanvien (id,ten,tuoi,email,diaChi,sdt,vaiTro) values(2,'Tuấn',20,'tuan','Vietnam','12345','Thu Ngan')");
+            st.executeUpdate("insert into nhanvien (id,ten,tuoi,email,diaChi,sdt,vaiTro) values(3,'Sang',20,'sang','Vietnam','12345','Thu Ngan')");
+            st.executeUpdate("insert into nhanvien (id,ten,tuoi,email,diaChi,sdt,vaiTro) values(4,'Quốc',20,'quoc','Vietnam','12345','Thu Ngan')");
+            st.executeUpdate("insert into nhanvien (id,ten,tuoi,email,diaChi,sdt,vaiTro) values(5,'Thịnh',20,'thinh','Vietnam','12345','Thu Ngan')");
 
             JOptionPane.showMessageDialog(null, "Da tao bang thanh cong");
         } catch (Exception e) {
