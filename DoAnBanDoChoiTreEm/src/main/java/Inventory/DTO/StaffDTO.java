@@ -6,13 +6,13 @@ public class StaffDTO {
     
     public StaffDTO(){}
 
-    public StaffDTO(int staID, String staName,int staAge, String staEmail, String staPhone, String staAddress, String staRole) {
+    public StaffDTO(int staID, String staName,int staAge, String staEmail, String staAddress, String staPhone, String staRole) {
         this.staID = staID;
         this.staName = staName;
         this.staAge = staAge;
         this.staEmail = staEmail;
-        this.staPhone = staPhone;
         this.staAddress = staAddress;
+        this.staPhone = staPhone;
         this.staRole = staRole;
     }
 
