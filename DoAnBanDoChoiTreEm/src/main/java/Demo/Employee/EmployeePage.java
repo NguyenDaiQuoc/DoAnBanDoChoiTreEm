@@ -1,4 +1,4 @@
-package BUS.Employee;
+package Demo.Employee;
 
 import Inventory.DTO.StaffDTO;
 import Database.ConnectionProvider;
