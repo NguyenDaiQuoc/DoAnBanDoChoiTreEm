@@ -31,15 +31,14 @@ public class ProductDAO {
         try {
             Connection con = ConnectionProvider.getCon();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM AllProduct WHERE status = 1");
+            ResultSet rs = st.executeQuery("SELECT * FROM sanpham WHERE status = 1");
             while (rs.next()) {
                 ProductDTO product = new ProductDTO();
                 product.setId(rs.getString("id"));
                 product.setTen(rs.getString("ten"));
                 product.setXuatxu(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
+                product.setSoLuong(rs.getInt("soluong"));
                 productList.add(product);
             }
         } catch (Exception e) {
@@ -52,7 +51,7 @@ public class ProductDAO {
         ArrayList<DoChoiPhuongTien> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM Product1 WHERE status = 1");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM dochoiphuongtien WHERE status = 1");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 DoChoiPhuongTien product = new DoChoiPhuongTien();
@@ -60,8 +59,7 @@ public class ProductDAO {
                 product.setTen(rs.getString("ten"));
                 product.setXuatxu(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
+                product.setSoLuong(rs.getInt("soluong"));
                 product.setLoaiPhuongTien(rs.getString("loaiPhuongTien"));
                 productList.add(product);
             }
@@ -75,7 +73,7 @@ public class ProductDAO {
         ArrayList<DoChoiTheoPhim> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM Product2 WHERE status = 1");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM dochoitheophim WHERE status = 1");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 DoChoiTheoPhim product = new DoChoiTheoPhim();
@@ -83,8 +81,7 @@ public class ProductDAO {
                 product.setTen(rs.getString("ten"));
                 product.setXuatxu(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
+                product.setSoLuong(rs.getInt("soluong"));
                 product.setTenPhim(rs.getString("tenPhim"));
                 productList.add(product);
             }
@@ -98,7 +95,7 @@ public class ProductDAO {
         ArrayList<DoChoiThoiTrang> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM Product3 WHERE status = 1");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM dochoithoitrang WHERE status = 1");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 DoChoiThoiTrang product = new DoChoiThoiTrang();
@@ -106,8 +103,7 @@ public class ProductDAO {
                 product.setTen(rs.getString("ten"));
                 product.setXuatxu(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
+                product.setSoLuong(rs.getInt("soluong"));
                 product.setXuHuong(rs.getString("xuHuong"));
                 productList.add(product);
             }
@@ -121,7 +117,7 @@ public class ProductDAO {
         ArrayList<DoChoiLapGhep> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM Product4 WHERE status = 1");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM dochoilapghep WHERE status = 1");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 DoChoiLapGhep product = new DoChoiLapGhep();
@@ -129,8 +125,7 @@ public class ProductDAO {
                 product.setTen(rs.getString("ten"));
                 product.setXuatxu(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
+                product.setSoLuong(rs.getInt("soluong"));
                 product.setSoManhGhep(rs.getInt("soManhGhep"));
                 productList.add(product);
             }
@@ -152,9 +147,8 @@ public class ProductDAO {
                 product.setTen(rs.getString("ten"));
                 product.setXuatxu(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
-                product.setLoaiRoBot(rs.getString("loaiRoBot"));
+                product.setSoLuong(rs.getInt("soluong"));
+                product.setLoaiRoBot(rs.getString("loaiRobot"));
                 productList.add(product);
             }
         } catch (SQLException ex) {
@@ -168,7 +162,7 @@ public class ProductDAO {
         ArrayList<ProductDTO> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "SELECT * FORM AllProduct WHERE status = 1 AND id LIKE ?";
+            String sql = "SELECT * FORM sanpham WHERE status = 1 AND id LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + id + "%");
             ResultSet rs = ps.executeQuery();
@@ -177,8 +171,7 @@ public class ProductDAO {
                 product.setId(rs.getString("id"));
                 product.setTen(rs.getString("ten"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
+                product.setSoLuong(rs.getInt("soluong"));
                 productList.add(product);
             }
         } catch (SQLException ex) {
@@ -192,7 +185,7 @@ public class ProductDAO {
         ArrayList<DoChoiPhuongTien> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "SELECT * FORM Product1 WHERE status = 1 AND id LIKE ?";
+            String sql = "SELECT * FORM dochoiphuongtien WHERE status = 1 AND id LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + id + "%");
             ResultSet rs = ps.executeQuery();
@@ -202,8 +195,7 @@ public class ProductDAO {
                 product.setTen(rs.getString("ten"));
                 product.setTen(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
+                product.setSoLuong(rs.getInt("soluong"));
                 product.setLoaiPhuongTien(rs.getString("loaiPhuongTien"));
                 productList.add(product);
             }
@@ -218,7 +210,7 @@ public class ProductDAO {
         ArrayList<DoChoiTheoPhim> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "SELECT * FORM Product2 WHERE status = 1 AND id LIKE ?";
+            String sql = "SELECT * FORM dochoitheophim WHERE status = 1 AND id LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + id + "%");
             ResultSet rs = ps.executeQuery();
@@ -228,8 +220,7 @@ public class ProductDAO {
                 product.setTen(rs.getString("ten"));
                 product.setTen(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
+                product.setSoLuong(rs.getInt("soluong"));
                 product.setTenPhim(rs.getString("tenPhim"));
                 productList.add(product);
             }
@@ -244,7 +235,7 @@ public class ProductDAO {
         ArrayList<DoChoiThoiTrang> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "SELECT * FORM Product3 WHERE status = 1 AND id LIKE ?";
+            String sql = "SELECT * FORM  WHERE dochoithoitrang status = 1 AND id LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + id + "%");
             ResultSet rs = ps.executeQuery();
@@ -254,8 +245,7 @@ public class ProductDAO {
                 product.setTen(rs.getString("ten"));
                 product.setTen(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
+                product.setSoLuong(rs.getInt("soluong"));
                 product.setXuHuong(rs.getString("xuHuong"));
                 productList.add(product);
             }
@@ -270,7 +260,7 @@ public class ProductDAO {
         ArrayList<DoChoiLapGhep> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "SELECT * FORM Product4 WHERE status = 1 AND id LIKE ?";
+            String sql = "SELECT * FORM dochoilapghep WHERE status = 1 AND id LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + id + "%");
             ResultSet rs = ps.executeQuery();
@@ -280,8 +270,7 @@ public class ProductDAO {
                 product.setTen(rs.getString("ten"));
                 product.setTen(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
+                product.setSoLuong(rs.getInt("soluong"));
                 product.setSoManhGhep(rs.getInt("soManhGhep"));
                 productList.add(product);
             }
@@ -296,7 +285,7 @@ public class ProductDAO {
         ArrayList<RoBot> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "SELECT * FORM Product5 WHERE status = 1 AND id LIKE ?";
+            String sql = "SELECT * FORM Robot WHERE status = 1 AND id LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + id + "%");
             ResultSet rs = ps.executeQuery();
@@ -306,9 +295,8 @@ public class ProductDAO {
                 product.setTen(rs.getString("ten"));
                 product.setTen(rs.getString("xuatxu"));
                 product.setGia(rs.getDouble("gia"));
-                product.setSoLuongConLai(rs.getInt("soLuongConLai"));
-                product.setTongSanPham(rs.getInt("tongSanPham"));
-                product.setLoaiRoBot(rs.getString("laiRoBot"));
+                product.setSoLuong(rs.getInt("soluong"));
+                product.setLoaiRoBot(rs.getString("laiRobot"));
                 productList.add(product);
             }
         } catch (SQLException ex) {
@@ -322,14 +310,13 @@ public class ProductDAO {
     public void addProduct(ProductDTO product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "INSERT INTO AllProduct (id, ten, xuatxu, gia, soLuongConLai, tongSanPham, status) VALUES (?, ?, ?, ?, ?, ?, 1)";
+            String sql = "INSERT INTO sanpham (id, ten, xuatxu, gia, soluong, status) VALUES (?, ?, ?, ?, ?, 1)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getId());
             ps.setString(2, product.getTen());
             ps.setString(3, product.getXuatxu());
             ps.setDouble(4, product.getGia());
-            ps.setInt(5, product.getSoLuongConLai());
-            ps.setInt(6, product.getTongSanPham());
+            ps.setInt(5, product.getSoLuong());
             ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -339,14 +326,13 @@ public class ProductDAO {
     public void addAssemblyToy(DoChoiLapGhep product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "INSERT INTO Product4 (id, ten, xuatxu, gia, soLuongConLai, tongSanPham, soManhGhep, status) VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
+            String sql = "INSERT INTO dochoilapghep (id, ten, xuatxu, gia, soluong, soManhGhep, status) VALUES (?, ?, ?, ?, ?, ?, 1)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getId());
             ps.setString(2, product.getTen());
             ps.setString(3, product.getXuatxu());
             ps.setDouble(4, product.getGia());
-            ps.setInt(5, product.getSoLuongConLai());
-            ps.setInt(6, product.getTongSanPham());
+            ps.setInt(5, product.getSoLuong());
             ps.setInt(7, product.getSoManhGhep());
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -357,14 +343,13 @@ public class ProductDAO {
     public void addVehicleToy(DoChoiPhuongTien product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "INSERT INTO sanpham (id, ten, xuatxu, gia, soLuongConLai, tongSanPham, loaiPhuongTien, status) VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
+            String sql = "INSERT INTO dochoiphuongtien (id, ten, xuatxu, gia, soluong, loaiPhuongTien, status) VALUES (?, ?, ?, ?, ?, ?, 1)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getId());
             ps.setString(2, product.getTen());
             ps.setString(3, product.getXuatxu());
             ps.setDouble(4, product.getGia());
-            ps.setInt(5, product.getSoLuongConLai());
-            ps.setInt(6, product.getTongSanPham());
+            ps.setInt(5, product.getSoLuong());
             ps.setString(7, product.getLoaiPhuongTien());
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -375,14 +360,13 @@ public class ProductDAO {
     public void addMovieToy(DoChoiTheoPhim product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "INSERT INTO sanpham (id, ten, xuatxu, gia, soLuongSanPham, tongSanPham, tenPhim, status) VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
+            String sql = "INSERT INTO dochoitheophim (id, ten, xuatxu, gia, soluong, tenPhim, status) VALUES (?, ?, ?, ?, ?, ?, 1)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getId());
             ps.setString(2, product.getTen());
             ps.setString(3, product.getXuatxu());
             ps.setDouble(4, product.getGia());
-            ps.setInt(5, product.getSoLuongConLai());
-            ps.setInt(6, product.getTongSanPham());
+            ps.setInt(5, product.getSoLuong());
             ps.setString(7, product.getTenPhim());
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -393,14 +377,13 @@ public class ProductDAO {
     public void addFashionToy(DoChoiThoiTrang product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "INSERT INTO sanpham (id, ten, xuatxu, gia, soLuongSanPham, tongSanPham, xuHuong, status) VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
+            String sql = "INSERT INTO dochoithoitrang (id, ten, xuatxu, gia, soluong, xuHuong, status) VALUES (?, ?, ?, ?, ?, ?, 1)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getId());
             ps.setString(2, product.getTen());
             ps.setString(3, product.getXuatxu());
             ps.setDouble(4, product.getGia());
-            ps.setInt(5, product.getSoLuongConLai());
-            ps.setInt(6, product.getTongSanPham());
+            ps.setInt(5, product.getSoLuong());
             ps.setString(7, product.getXuHuong());
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -411,14 +394,13 @@ public class ProductDAO {
     public void addRoBotToy(RoBot product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "INSERT INTO sanpham (id, ten, xuatxu, gia, soLuongConLai, tongSanPham, loaiRoBot, status) VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
+            String sql = "INSERT INTO Robot (id, ten, xuatxu, gia, soluong, loaiRoBot, status) VALUES (?, ?, ?, ?, ?, ?, 1)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getId());
             ps.setString(2, product.getTen());
             ps.setString(3, product.getXuatxu());
             ps.setDouble(4, product.getGia());
-            ps.setInt(5, product.getSoLuongConLai());
-            ps.setInt(6, product.getTongSanPham());
+            ps.setInt(5, product.getSoLuong());
             ps.setString(7, product.getLoaiRoBot());
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -429,7 +411,7 @@ public class ProductDAO {
     public void removeProduct(String id){
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement ps = con.prepareStatement("UPDATE AllProduct SET status = 0 WHERE id = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE sanpham SET status = 0 WHERE id = ?");
             ps.setString(1, id);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -439,7 +421,7 @@ public class ProductDAO {
     public void removeVehicleToy(String id){
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement ps = con.prepareStatement("UPDATE Product1 SET status = 0 WHERE id = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE dochoiphuongtien SET status = 0 WHERE id = ?");
             ps.setString(1, id);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -449,7 +431,7 @@ public class ProductDAO {
     public void removeMovieToy(String id){
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement ps = con.prepareStatement("UPDATE Product2 SET status = 0 WHERE id = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE dochoitheophim SET status = 0 WHERE id = ?");
             ps.setString(1, id);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -459,7 +441,7 @@ public class ProductDAO {
     public void removeFashionToy(String id){
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement ps = con.prepareStatement("UPDATE Product3 SET status = 0 WHERE id = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE dochoithoitrang SET status = 0 WHERE id = ?");
             ps.setString(1, id);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -469,7 +451,7 @@ public class ProductDAO {
     public void removeAssemblyToy(String id){
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement ps = con.prepareStatement("UPDATE Product4 SET status = -4 WHERE id = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE dochoilapghep SET status = 0 WHERE id = ?");
             ps.setString(1, id);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -479,7 +461,7 @@ public class ProductDAO {
     public void removeRoBotToy(String id){
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement ps = con.prepareStatement("UPDATE Product5 SET status = -5 WHERE id = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE Robot SET status = 0 WHERE id = ?");
             ps.setString(1, id);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -489,13 +471,12 @@ public class ProductDAO {
     public void updateProduct(ProductDTO product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "UPDATE AllProduct SET ten = ?, xuatxu = ?, gia = ?, soLuongSanPham = ?, tongSanPham = ? WHERE id = ?";
+            String sql = "UPDATE sanpham SET ten = ?, xuatxu = ?, gia = ?, soluong = ? WHERE id = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getTen());
             ps.setString(2, product.getXuatxu());
             ps.setDouble(3, product.getGia());
-            ps.setInt(4, product.getSoLuongConLai());
-            ps.setInt(5, product.getTongSanPham());
+            ps.setInt(4, product.getSoLuong());
             ps.setString(7, product.getId());
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -506,13 +487,12 @@ public class ProductDAO {
     public void updateVehicleToy(DoChoiPhuongTien product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "UPDATE Product1 SET ten = ?, xuatxu = ?, gia = ?, soLuongSanPham = ?, tongSanPham = ?, loaiPhuongTien = ? WHERE id = ?";
+            String sql = "UPDATE dochoiphuongtien SET ten = ?, xuatxu = ?, gia = ?, soluong = ?, loaiPhuongTien = ? WHERE id = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getTen());
             ps.setString(2, product.getXuatxu());
             ps.setDouble(3, product.getGia());
-            ps.setInt(4, product.getSoLuongConLai());
-            ps.setInt(5, product.getTongSanPham());
+            ps.setInt(4, product.getSoLuong());
             ps.setString(6, product.getLoaiPhuongTien());
             ps.setString(7, product.getId());
             ps.executeUpdate();
@@ -524,13 +504,12 @@ public class ProductDAO {
     public void updateMovieToy(DoChoiTheoPhim product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "UPDATE Product2 SET ten = ?, xuatxu = ?, gia = ?, soLuongSanPham = ?, tongSanPham = ?, tenPhim = ? WHERE id = ?";
+            String sql = "UPDATE docboitheophim SET ten = ?, xuatxu = ?, gia = ?, soluong = ?, tenPhim = ? WHERE id = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getTen());
             ps.setString(2, product.getXuatxu());
             ps.setDouble(3, product.getGia());
-            ps.setInt(4, product.getSoLuongConLai());
-            ps.setInt(5, product.getTongSanPham());
+            ps.setInt(4, product.getSoLuong());
             ps.setString(6, product.getTenPhim());
             ps.setString(7, product.getId());
             ps.executeUpdate();
@@ -542,13 +521,12 @@ public class ProductDAO {
     public void updateFashionToy(DoChoiThoiTrang product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "UPDATE Product3 SET ten = ?, xuatxu = ?, gia = ?, soLuongSanPham = ?, tongSanPham = ?, xuHuong = ? WHERE id = ?";
+            String sql = "UPDATE dochoithoitrang SET ten = ?, xuatxu = ?, gia = ?, soluong = ?, xuHuong = ? WHERE id = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getTen());
             ps.setString(2, product.getXuatxu());
             ps.setDouble(3, product.getGia());
-            ps.setInt(4, product.getSoLuongConLai());
-            ps.setInt(5, product.getTongSanPham());
+            ps.setInt(4, product.getSoLuong());
             ps.setString(6, product.getXuHuong());
             ps.setString(7, product.getId());
             ps.executeUpdate();
@@ -560,13 +538,12 @@ public class ProductDAO {
     public void updateAssemblyToy(DoChoiLapGhep product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "UPDATE Product4 SET ten = ?, xuatxu = ?, gia = ?, soLuongSanPham = ?, tongSanPham = ?, soManhGhep = ? WHERE id = ?";
+            String sql = "UPDATE dochoilapghep SET ten = ?, xuatxu = ?, gia = ?, soluong = ?, soManhGhep = ? WHERE id = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getTen());
             ps.setString(2, product.getXuatxu());
             ps.setDouble(3, product.getGia());
-            ps.setInt(4, product.getSoLuongConLai());
-            ps.setInt(5, product.getTongSanPham());
+            ps.setInt(4, product.getSoLuong());
             ps.setInt(6, product.getSoManhGhep());
             ps.setString(7, product.getId());
             ps.executeUpdate();
@@ -578,13 +555,12 @@ public class ProductDAO {
     public void updateRoBotToy(RoBot product){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "UPDATE Product5 SET ten = ?, xuatxu = ?, gia = ?, soLuongSanPham = ?, tongSanPham = ?, loaiRoBot = ? WHERE id = ?";
+            String sql = "UPDATE Robot SET ten = ?, xuatxu = ?, gia = ?, soluong = ?, loaiRoBot = ? WHERE id = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, product.getTen());
             ps.setString(2, product.getXuatxu());
             ps.setDouble(3, product.getGia());
-            ps.setInt(4, product.getSoLuongConLai());
-            ps.setInt(5, product.getTongSanPham());
+            ps.setInt(4, product.getSoLuong());
             ps.setString(6, product.getLoaiRoBot());
             ps.setString(7, product.getId());
             ps.executeUpdate();
