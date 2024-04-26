@@ -14,8 +14,8 @@ public class RoBot extends ProductDTO {
     public RoBot() {
     }
 
-    public RoBot(String loaiRoBot, String id, String ten, String xuatxu, double gia, int soLuongConLai, int tongSanPham) {
-        super(id, ten, xuatxu, gia, soLuongConLai, tongSanPham);
+    public RoBot(String id, String ten, String xuatxu, double gia, int soLuong, String loaiRoBot) {
+        super(id, ten, xuatxu, gia, soLuong);
         this.loaiRoBot = loaiRoBot;
     }
 

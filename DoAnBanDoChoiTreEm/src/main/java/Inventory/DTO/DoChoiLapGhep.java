@@ -14,8 +14,8 @@ public class DoChoiLapGhep extends ProductDTO {
     public DoChoiLapGhep() {
     }
 
-    public DoChoiLapGhep(int soManhGhep, String id, String ten, String xuatxu, double gia, int soLuongConLai, int tongSanPham) {
-        super(id, ten, xuatxu, gia, soLuongConLai, tongSanPham);
+    public DoChoiLapGhep(String id, String ten, String xuatxu, double gia, int soLuong, int soManhGhep) {
+        super(id, ten, xuatxu, gia, soLuong);
         this.soManhGhep = soManhGhep;
     }
 

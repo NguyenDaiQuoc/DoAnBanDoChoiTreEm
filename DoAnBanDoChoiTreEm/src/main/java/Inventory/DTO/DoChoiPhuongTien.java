@@ -14,8 +14,8 @@ public class DoChoiPhuongTien extends ProductDTO {
     public DoChoiPhuongTien() {
     }
     
-    public DoChoiPhuongTien(String id, String ten, String xuatxu, double gia, int soLuongConLai, int tongSanPham, String loaiPhuongTien) {
-        super(id, ten, xuatxu, gia, soLuongConLai, tongSanPham);
+    public DoChoiPhuongTien(String id, String ten, String xuatxu, double gia, int soLuong, String loaiPhuongTien) {
+        super(id, ten, xuatxu, gia, soLuong);
         this.loaiPhuongTien = loaiPhuongTien;
     }
 

@@ -13,19 +13,17 @@ public class ProductDTO {
     private String ten;
     private String xuatxu;
     private double gia;
-    private int soLuongConLai;
-    private int tongSanPham;
+    private int soLuong;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(String id, String ten, String xuatxu, double gia, int soLuongConLai, int tongSanPham) {
+    public ProductDTO(String id, String ten, String xuatxu, double gia, int soLuong) {
         this.id = id;
         this.ten = ten;
         this.xuatxu = xuatxu;
         this.gia = gia;
-        this.soLuongConLai = soLuongConLai;
-        this.tongSanPham = tongSanPham;
+        this.soLuong = soLuong;
     }
 
     public String getId() {
@@ -44,12 +42,8 @@ public class ProductDTO {
         return gia;
     }
 
-    public int getSoLuongConLai() {
-        return soLuongConLai;
-    }
-
-    public int getTongSanPham() {
-        return tongSanPham;
+    public int getSoLuong() {
+        return soLuong;
     }
 
     public void setId(String id) {
@@ -68,13 +62,11 @@ public class ProductDTO {
         this.gia = gia;
     }
 
-    public void setSoLuongConLai(int soLuongConLai) {
-        this.soLuongConLai = soLuongConLai;
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
     }
 
-    public void setTongSanPham(int tongSanPham) {
-        this.tongSanPham = tongSanPham;
-    }
+    
 
     
 
