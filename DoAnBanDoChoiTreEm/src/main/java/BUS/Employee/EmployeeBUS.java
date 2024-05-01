@@ -26,5 +26,9 @@ public class EmployeeBUS {
     public void updateStaff(StaffDTO staff) {
         dao.updateStaff(staff);
     }
+    
+    public void getStaffByUserName(String tk){
+        dao.getStaffByUserName(tk);
+    }
 }
 
