@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class StaffDAO {
+    private String tk;
     public ArrayList <StaffDTO> getAllStaffs (){
         ArrayList <StaffDTO> staff = new ArrayList <>();
         try {
@@ -87,6 +88,46 @@ public class StaffDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public StaffDTO getStaffByUserName(String username) {
+        StaffDTO loggedInStaff = null;
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            con = ConnectionProvider.getCon();
+            // Chuẩn bị truy vấn SQL
+            pst = con.prepareStatement("SELECT * FROM nhanvien WHERE status = 1 AND email = ?");
+            pst.setString(1, username);
+            // Thực thi truy vấn
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                // Nếu có kết quả, lấy thông tin của nhân viên
+                int id = rs.getInt("id");
+                String name = rs.getString("ten");
+                // Tạo đối tượng StaffDTO từ thông tin nhân viên
+                loggedInStaff = new StaffDTO(id, name, 0, username, "", "", "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Đóng các đối tượng ResultSet, PreparedStatement và Connection
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return loggedInStaff;
     }
     
 }
