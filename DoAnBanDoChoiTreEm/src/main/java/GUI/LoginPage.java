@@ -4,6 +4,7 @@
  */
 package GUI;
 import GUI.HomePage;
+import BUS.Employee.EmployeeBUS;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,8 @@ import java.sql.ResultSet;
  * @author Admin
  */
 public class LoginPage extends javax.swing.JFrame {
+    private EmployeeBUS bus = new EmployeeBUS();
+    public String tk = "", mk = "";
     boolean checkLogin;
     /**
      * Creates new form LoginPage
@@ -142,19 +145,19 @@ public class LoginPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
     
-    private void checkLoginAction() {
-        String tk = jTextField1.getText();
-        String mk = new String(jPasswordField1.getPassword());
+    private String checkLoginAction() {
+        tk = jTextField1.getText();
+        mk = new String(jPasswordField1.getPassword());
         try {
             Connection con = Database.ConnectionProvider.getCon();
             PreparedStatement ps = con.prepareStatement("SELECT * FROM NGUOIDUNG WHERE EMAIL = ? AND Matkhau = ?");
             ps.setString(1, tk);
             ps.setString(2, mk);
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 String role = rs.getString("vaiTro");
-                if("Nhan Vien".equalsIgnoreCase(role)) {
+                if("Nhan Vien".equalsIgnoreCase(role)) {       
+                    bus.getStaffByUserName(tk);
                     dispose();
                     HomePage home = new HomePage("EMPLOYEE");
                 } else {
@@ -171,6 +174,7 @@ public class LoginPage extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return tk;
     }
     private void getCurrentUser() {
         String userName;
