@@ -53,11 +53,12 @@ public class CthdDAO {
        }
    }
     
-    public void removeCTHD (String idSP) {
+    public void removeCTHD (String idSP, int idHD) {
        try {
            Connection con = ConnectionProvider.getCon();
-           PreparedStatement pst = con.prepareStatement("UPDATE cthd SET STATUS = 'false' WHERE idSanPham LIKE ?");
+           PreparedStatement pst = con.prepareStatement("UPDATE cthd SET STATUS = 'false' WHERE idSanPham LIKE ? AND idHoaDon LIKE ?");
            pst.setString(1, idSP);
+           pst.setInt(2, idHD);
            pst.executeUpdate();
        } catch (Exception e) {
            e.printStackTrace();
@@ -67,12 +68,13 @@ public class CthdDAO {
    public void updateCTHD (CthdDTO cthd, String oldIdSP) {
        try {
            Connection con = ConnectionProvider.getCon();
-           PreparedStatement pst = con.prepareStatement("UPDATE cthd SET idSanPham = ?, tenSanPham = ?, soLuong = ?, giaTien = ? WHERE idSanPham = ?");
+           PreparedStatement pst = con.prepareStatement("UPDATE cthd SET idSanPham = ?, tenSanPham = ?, soLuong = ?, giaTien = ? WHERE idSanPham = ? AND idHoaDon = ?");
            pst.setString(1, cthd.getIdSanPham());
            pst.setString(2, cthd.getTenSanPham());
            pst.setInt(3, cthd.getSoLuong());
            pst.setDouble(4,cthd.getGiaTien());
            pst.setString(5, oldIdSP);
+           pst.setString(6, String.valueOf(cthd.getIdHoaDon()));
            pst.executeUpdate();
        } catch (Exception e) {
            e.printStackTrace();

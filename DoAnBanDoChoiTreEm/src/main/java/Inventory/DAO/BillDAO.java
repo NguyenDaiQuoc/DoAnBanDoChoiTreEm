@@ -39,6 +39,25 @@ public class BillDAO {
         return dshoadon;
     }
     
+    public ArrayList<BillDTO> getAllBills1() {
+        ArrayList<BillDTO> dshoadon = new ArrayList<>();
+        try {
+            Connection con = ConnectionProvider.getCon();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM HOADON");
+            while (rs.next()) {
+                try {
+                   dshoadon.add(new BillDTO(rs.getInt("id"), rs.getString("idNhanVien"), rs.getString("idKhachHang"), rs.getInt("soLuongCTHD"), rs.getDouble("tongTien"), rs.getDate("ngayXuat"), rs.getString("status")));
+               } catch (Exception e) {
+                   e.printStackTrace();
+               }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dshoadon;
+    }
+    
     // tim kiem hoa don ( tim kiem theo khoang gia tien, ngay xuat ) !!!!!!!!!!!!
     public ArrayList<BillDTO> getBillsByKeyword(String id, String idNV, String idKH, String soCTHD, String tongTien, String ngayXuat, String tuGia, String denGia, String tuNgay, String denNgay) {
         ArrayList<BillDTO> dshoadon = new ArrayList<>();
@@ -68,13 +87,14 @@ public class BillDAO {
    public void addBill (BillDTO bill) {
        try {
            Connection con = ConnectionProvider.getCon();
-           PreparedStatement pst = con.prepareStatement("INSERT INTO HOADON (idNhanVien, idKhacHang, soLuongCTHD, tongTien, ngayXuat, status) VALUES (?,?,?,?,?,?)");
+           PreparedStatement pst = con.prepareStatement("INSERT INTO HOADON (idNhanVien, idKhachHang, soLuongCTHD, tongTien, ngayXuat, status) VALUES (?,?,?,?,?,?) WHERE id LIKE ?");
            pst.setString(1, bill.getIdNhanVien());
            pst.setString(2, bill.getIdKhachHang());
            pst.setInt(3, bill.getSoCTHD());
            pst.setDouble(4, bill.getTongTien());
-           pst.setString(5, bill.getStatus());
-           pst.setDate(6, (Date) bill.getNgayXuat());
+           pst.setDate(5, (Date) bill.getNgayXuat());
+           pst.setString(6, bill.getStatus());
+           pst.setInt(7, bill.getId());
            pst.executeUpdate();
        } catch(Exception e) {
            e.printStackTrace();
