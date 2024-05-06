@@ -32,14 +32,14 @@ import javax.swing.*;
 public class HomePage extends javax.swing.JFrame {
     CardLayout layout;
     SalesPage salespage;
-    private EmployeeBUS bus = new EmployeeBUS();
-    private StaffDTO staff = new StaffDTO();
+    EmployeeBUS bus = new EmployeeBUS();
+    public StaffDTO staff = new StaffDTO();
     
     public HomePage(String userType, String tk) {
         initComponents();
         // set layout
         layout = new CardLayout();
-        salespage = new SalesPage(); 
+        salespage = new SalesPage(this); 
         displayPanel.setLayout(layout);
         displayPanel.add("Menu", new MenuPage(this));
         displayPanel.add("Sales", salespage);
@@ -75,7 +75,7 @@ public class HomePage extends javax.swing.JFrame {
         layout.show(displayPanel, "Menu");
     }
     ///////////////
-    private void getCurrentUser(String tk) {
+    public void getCurrentUser(String tk) {
         staff = bus.getStaffByUserName(tk);
         userNameLabel.setText("Xin chào " + staff.getStaName() + " !");
     }
@@ -97,13 +97,13 @@ public class HomePage extends javax.swing.JFrame {
         displayPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLocation(new java.awt.Point(160, 25));
+        setLocation(new java.awt.Point(200, 5));
         setMinimumSize(new java.awt.Dimension(1125, 780));
 
         headerPanel.setBackground(new java.awt.Color(51, 51, 51));
         headerPanel.setForeground(new java.awt.Color(255, 255, 255));
-        headerPanel.setMinimumSize(new java.awt.Dimension(1125, 50));
-        headerPanel.setPreferredSize(new java.awt.Dimension(1125, 50));
+        headerPanel.setMinimumSize(new java.awt.Dimension(1125, 60));
+        headerPanel.setPreferredSize(new java.awt.Dimension(1125, 60));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
@@ -127,8 +127,9 @@ public class HomePage extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Cửa hàng đồ chơi trẻ em");
 
-        userNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        userNameLabel.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         userNameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        userNameLabel.setText("Xin chào !");
 
         menuBtn.setText("Menu");
         menuBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -143,55 +144,54 @@ public class HomePage extends javax.swing.JFrame {
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(menuBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(menuBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(143, 143, 143)
+                .addGap(121, 121, 121)
                 .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(47, 47, 47)
                 .addComponent(LogoutBt, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addGap(19, 19, 19))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(headerPanelLayout.createSequentialGroup()
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(headerPanelLayout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(LogoutBt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(userNameLabel)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                        .addContainerGap(12, Short.MAX_VALUE)
+                        .addContainerGap(11, Short.MAX_VALUE)
                         .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(menuBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(LogoutBt, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(userNameLabel)))
+                    .addGroup(headerPanelLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         displayPanel.setBackground(new java.awt.Color(255, 255, 255));
-        displayPanel.setMinimumSize(new java.awt.Dimension(1125, 720));
-        displayPanel.setPreferredSize(new java.awt.Dimension(1125, 720));
+        displayPanel.setMaximumSize(new java.awt.Dimension(1125, 720));
+        displayPanel.setMinimumSize(new java.awt.Dimension(1125, 710));
+        displayPanel.setPreferredSize(new java.awt.Dimension(1125, 710));
         displayPanel.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(headerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(displayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(displayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
 
