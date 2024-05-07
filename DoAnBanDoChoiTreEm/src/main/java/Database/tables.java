@@ -180,6 +180,15 @@ public class tables {
             st.executeUpdate("insert into nhanvien (id,ten,tuoi,email,diaChi,sdt,vaiTro) values(4,'Quốc',20,'quoc','Vietnam','12345','Thu Ngan')");
             st.executeUpdate("insert into nhanvien (id,ten,tuoi,email,diaChi,sdt,vaiTro) values(5,'Thịnh',20,'thinh','Vietnam','12345','Thu Ngan')");
 
+            rs = st.executeQuery("SHOW TABLES LIKE 'khuyenmai'");
+            if (!rs.next()) {
+                st.executeUpdate("create table khuyenmai(id int AUTO_INCREMENT primary key, noiDung varchar(200), phanTramGiamGia decimal(5,2), status int DEFAULT 1)");
+            }
+            
+            st.executeUpdate("insert into khuyenmai (noiDung, phanTramGiamGia) values('Black Friday', 40.00)");
+            st.executeUpdate("insert into khuyenmai (noiDung, phanTramGiamGia) values('Lễ Giáng Sinh', 20.00)");
+            st.executeUpdate("insert into khuyenmai (noiDung, phanTramGiamGia) values('Tết Nguyên Đán', 25.00)");
+
             JOptionPane.showMessageDialog(null, "Da tao bang thanh cong");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
