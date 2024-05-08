@@ -1,4 +1,5 @@
-package Demo.Customer;
+// CustomerPage.java
+package UI.Customer;
 
 import Bus.CustomerBUS;
 import Inventory.DTO.CustomerDTO;
@@ -20,8 +21,7 @@ public class CustomerPage extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JLabel titleLabel = new JLabel("Khách hàng");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.BLUE);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         add(Box.createVerticalStrut(20));
@@ -50,9 +50,6 @@ public class CustomerPage extends JPanel {
         saveButton = new JButton("Save");
 
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(5, 2, 10, 10)); // Use a grid layout
-        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
-
         inputPanel.add(new JLabel("Name:"));
         inputPanel.add(nameField);
         inputPanel.add(new JLabel("Email:"));
@@ -61,22 +58,40 @@ public class CustomerPage extends JPanel {
         inputPanel.add(addressField);
         inputPanel.add(new JLabel("SDT:"));
         inputPanel.add(sdtField);
-
-        // Create a panel for the buttons and use a flow layout
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(addButton);
-        buttonPanel.add(removeButton);
-        buttonPanel.add(editButton);
-        buttonPanel.add(saveButton);
-
-        // Create a panel for the search field and button
-        JPanel searchPanel = new JPanel(new FlowLayout());
-        searchPanel.add(new JLabel("Search:"));
-        searchPanel.add(searchField);
-        searchPanel.add(searchButton);
-        searchPanel.add(cancelButton);
+        inputPanel.add(addButton);
+        inputPanel.add(removeButton);
+        inputPanel.add(editButton);
+        inputPanel.add(new JLabel("Search:"));
+        inputPanel.add(searchField);
+        inputPanel.add(searchButton);
+        inputPanel.add(cancelButton);
+        inputPanel.add(saveButton);
 
         addButton.addActionListener(e -> {
+            // Kiểm tra dữ liệu đầu vào
+            if (nameField.getText().isEmpty() || emailField.getText().isEmpty() || addressField.getText().isEmpty() || sdtField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin.");
+                return;
+            }
+
+            // Kiểm tra tên khách hàng
+            if (!nameField.getText().matches("[a-zA-Z ]+")) {
+                JOptionPane.showMessageDialog(null, "Tên khách hàng không được chứa số hoặc kí tự đặc biệt. Vui lòng nhập lại.");
+                return;
+            }
+
+            // Kiểm tra email
+            if (!emailField.getText().contains("@")) {
+                JOptionPane.showMessageDialog(null, "Email phải chứa kí tự '@'. Vui lòng nhập lại.");
+                return;
+            }
+
+            // Kiểm tra số điện thoại
+            if (!sdtField.getText().matches("[0-9]+")) {
+                JOptionPane.showMessageDialog(null, "Số điện thoại chỉ được chứa số. Vui lòng nhập lại.");
+                return;
+            }
+
             CustomerDTO newCustomer = new CustomerDTO(0, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
             bus.addCustomer(newCustomer);
             loadAllCustomers();
@@ -123,8 +138,6 @@ public class CustomerPage extends JPanel {
         JScrollPane scrollPane = new JScrollPane(customerTable);
 
         add(inputPanel);
-        add(buttonPanel);
-        add(searchPanel);
         add(Box.createVerticalStrut(20));
         add(scrollPane);
 
