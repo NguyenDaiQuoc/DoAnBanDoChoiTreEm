@@ -6,11 +6,12 @@ import Inventory.DTO.PromotionDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 public class PromotionDAO {
-    
+
     public ArrayList<PromotionDTO> getAllPromotions() {
         ArrayList<PromotionDTO> promotions = new ArrayList<>();
         try {
@@ -64,6 +65,29 @@ public class PromotionDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Tìm Kiếm Khuyến Mãi Theo id
+    public ArrayList<PromotionDTO> searchPromotionById(String id) {
+        ArrayList<PromotionDTO> promotionList = new ArrayList<>();
+        try {
+            Connection con = ConnectionProvider.getCon();
+            String sql = "SELECT * FROM khuyenmai WHERE status = 1 AND id LIKE ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, "%" + id + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                PromotionDTO promotion = new PromotionDTO(rs.getInt("id"), rs.getString("noiDung"), rs.getDouble("phanTramGiamGia"));
+                promotion.setId(rs.getInt("id"));
+                promotion.setNoiDung(rs.getString("noiDung"));
+                promotion.setPhanTramGiamGia(rs.getDouble("phanTramGiamGia"));
+                promotionList.add(promotion);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return promotionList;
     }
 
     public void updatePromotion(PromotionDTO promotion) {
