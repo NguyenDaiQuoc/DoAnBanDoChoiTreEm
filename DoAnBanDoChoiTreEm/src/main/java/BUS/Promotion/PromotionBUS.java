@@ -16,6 +16,10 @@ public class PromotionBUS {
         return dao.getPromotionsByKeyword(keyword);
     }
 
+    public ArrayList<PromotionDTO> searchPromotionById(String id) {
+        return dao.searchPromotionById(id);
+    }
+
     public void addPromotion(PromotionDTO promotion) {
         dao.addPromotion(promotion);
     }
