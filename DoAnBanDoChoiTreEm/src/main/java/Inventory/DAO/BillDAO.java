@@ -23,15 +23,9 @@ public class BillDAO {
         try {
             Connection con = ConnectionProvider.getCon();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM HOADON");
+            ResultSet rs = st.executeQuery("SELECT * FROM HOADON WHERE status = 1");
             while (rs.next()) {
-                if(rs.getString("status").equals("true")) {
-                    try {
-                       dshoadon.add(new BillDTO(rs.getInt("id"), rs.getString("idNhanVien"), rs.getString("idKhachHang"), rs.getInt("soLuongCTHD"), rs.getDouble("tongTien"), rs.getDate("ngayXuat"), rs.getString("status")));
-                   } catch (Exception e) {
-                       e.printStackTrace();
-                   }
-                }
+                       dshoadon.add(new BillDTO(rs.getInt("id"), rs.getString("idNhanVien"), rs.getString("idKhachHang"), rs.getInt("soLuongCTHD"),rs.getInt("idKhuyenMai"), rs.getDouble("tongTien"), rs.getDate("ngayXuat"), rs.getInt("status")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,7 +41,7 @@ public class BillDAO {
             ResultSet rs = st.executeQuery("SELECT * FROM HOADON");
             while (rs.next()) {
                 try {
-                   dshoadon.add(new BillDTO(rs.getInt("id"), rs.getString("idNhanVien"), rs.getString("idKhachHang"), rs.getInt("soLuongCTHD"), rs.getDouble("tongTien"), rs.getDate("ngayXuat"), rs.getString("status")));
+                   dshoadon.add(new BillDTO(rs.getInt("id"), rs.getString("idNhanVien"), rs.getString("idKhachHang"), rs.getInt("soLuongCTHD"), rs.getInt("idKhuyenMai"), rs.getDouble("tongTien"), rs.getDate("ngayXuat"), rs.getInt("status")));
                } catch (Exception e) {
                    e.printStackTrace();
                }
@@ -59,11 +53,11 @@ public class BillDAO {
     }
     
     // tim kiem hoa don ( tim kiem theo khoang gia tien, ngay xuat ) !!!!!!!!!!!!
-    public ArrayList<BillDTO> getBillsByKeyword(String id, String idNV, String idKH, String soCTHD, String tongTien, String ngayXuat, String tuGia, String denGia, String tuNgay, String denNgay) {
+    public ArrayList<BillDTO> getBillsByKeyword(String id, String idNV, String idKH, String soCTHD, String tongTien, String ngayXuat, String tuGia, String denGia, String tuNgay, String denNgay, String km) {
         ArrayList<BillDTO> dshoadon = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement pst = con.prepareStatement("SELECT * FROM hoadon WHERE status = 'true' AND (id LIKE ? OR idNhanVien LIKE ? OR idKhachHang LIKE ? OR soLuongCTHD LIKE ? OR tongTien LIKE ? OR ngayXuat LIKE ? OR tongTien BETWEEN ? AND ? OR ngayXuat BETWEEN CAST(? AS DATE) AND CAST(? AS DATE))");
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM hoadon WHERE status = 'true' AND (id LIKE ? OR idNhanVien LIKE ? OR idKhachHang LIKE ? OR soLuongCTHD LIKE ? OR tongTien LIKE ? OR ngayXuat LIKE ? OR tongTien BETWEEN ? AND ? OR ngayXuat BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) OR idKhuyenMai LIKE ?)");
             pst.setString(1,id);
             pst.setString(2,idNV);
             pst.setString(3,idKH);
@@ -74,9 +68,10 @@ public class BillDAO {
             pst.setString(8,denGia);
             pst.setString(9,tuNgay);
             pst.setString(10,denNgay);
+            pst.setString(11, km);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                dshoadon.add(new BillDTO(rs.getInt("id"), rs.getString("idNhanVien"), rs.getString("idKhachHang"), rs.getInt("soLuongCTHD"), rs.getDouble("tongTien"), rs.getDate("ngayXuat"), rs.getString("status")));
+                dshoadon.add(new BillDTO(rs.getInt("id"), rs.getString("idNhanVien"), rs.getString("idKhachHang"), rs.getInt("soLuongCTHD"), rs.getInt("idKhuyenMai"), rs.getDouble("tongTien"), rs.getDate("ngayXuat"), rs.getInt("status")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,14 +82,14 @@ public class BillDAO {
    public void addBill (BillDTO bill) {
        try {
            Connection con = ConnectionProvider.getCon();
-           PreparedStatement pst = con.prepareStatement("INSERT INTO HOADON (idNhanVien, idKhachHang, soLuongCTHD, tongTien, ngayXuat, status) VALUES (?,?,?,?,?,?) WHERE id LIKE ?");
+           PreparedStatement pst = con.prepareStatement("INSERT INTO HOADON (idNhanVien, idKhachHang, soLuongCTHD, idKhuyenMai, tongTien, ngayXuat, status) VALUES (?,?,?,?,?,?,?)");
            pst.setString(1, bill.getIdNhanVien());
            pst.setString(2, bill.getIdKhachHang());
            pst.setInt(3, bill.getSoCTHD());
-           pst.setDouble(4, bill.getTongTien());
-           pst.setDate(5, (Date) bill.getNgayXuat());
-           pst.setString(6, bill.getStatus());
-           pst.setInt(7, bill.getId());
+           pst.setInt(4, bill.getIdKhuyenMai());
+           pst.setDouble(5, bill.getTongTien());
+           pst.setDate(6, (Date) bill.getNgayXuat());
+           pst.setInt(7, bill.getStatus());
            pst.executeUpdate();
        } catch(Exception e) {
            e.printStackTrace();
@@ -104,7 +99,7 @@ public class BillDAO {
    public void removeBill (int id) {
        try {
            Connection con = ConnectionProvider.getCon();
-           PreparedStatement pst = con.prepareStatement("UPDATE HOADON SET STATUS = 'false' WHERE id = ?");
+           PreparedStatement pst = con.prepareStatement("UPDATE HOADON SET STATUS = 0 WHERE id = ?");
            pst.setInt(1, id);
            pst.executeUpdate();
        } catch (Exception e) {
@@ -123,7 +118,7 @@ public class BillDAO {
            pst.setInt(3, bill.getSoCTHD());
            pst.setDouble(4,bill.getTongTien());
            pst.setDate(5, sqlDate);
-           pst.setString(6, bill.getStatus());
+           pst.setInt(6, bill.getStatus());
            pst.setInt(7, bill.getId());
            pst.executeUpdate();
        } catch (Exception e) {

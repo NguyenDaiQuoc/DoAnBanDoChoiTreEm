@@ -16,7 +16,8 @@ public class BillDTO {
     int soCTHD;
     double tongTien;
     Date ngayXuat;
-    String status;
+    int status;
+    int idKhuyenMai;
     
     public BillDTO() {
 //       this.id = 0;
@@ -33,11 +34,12 @@ public class BillDTO {
 //       this.status = "";
     }
     
-    public BillDTO(int id, String idNhanVien, String idKhachHang,int soCTHD, double tongTien, Date ngayXuat, String status) {
+    public BillDTO(int id, String idNhanVien, String idKhachHang,int soCTHD, int idKM, double tongTien, Date ngayXuat, int status) {
         this.id = id;
         this.tongTien = tongTien;
         this.ngayXuat = ngayXuat;
         this.soCTHD = soCTHD;
+        this.idKhuyenMai = idKM;
         this.idNhanVien = idNhanVien;
         this.idKhachHang = idKhachHang;
         this.status = status;
@@ -50,6 +52,15 @@ public class BillDTO {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getIdKhuyenMai() {
+        return idKhuyenMai;
+    }
+
+    public void setIdKhuyenMai(int idKhuyenMai) {
+        this.idKhuyenMai = idKhuyenMai;
+    }
+
 
     public String getIdNhanVien() {
         return idNhanVien;
@@ -91,11 +102,11 @@ public class BillDTO {
         this.ngayXuat = ngayXuat;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
     

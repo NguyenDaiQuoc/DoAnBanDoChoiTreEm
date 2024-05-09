@@ -25,11 +25,9 @@ public class CthdDAO {
         try {
             Connection con = ConnectionProvider.getCon();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM CTHD");
+            ResultSet rs = st.executeQuery("SELECT * FROM CTHD WHERE status = 1");
             while(rs.next()) {
-                if(rs.getString("status").equals("true")) {
-                    dscthd.add(new CthdDTO(rs.getInt("idHoaDon"), rs.getString("idSanPham"), rs.getString("tenSanPham"), rs.getInt("soLuong"), rs.getDouble("giaTien"), rs.getString("status")));
-                }
+                    dscthd.add(new CthdDTO(rs.getInt("idHoaDon"), rs.getString("idSanPham"), rs.getString("tenSanPham"), rs.getInt("soLuong"), rs.getDouble("giaTien"), rs.getInt("status")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +44,7 @@ public class CthdDAO {
            pst.setString(3, cthd.getTenSanPham());
            pst.setInt(4, cthd.getSoLuong());
            pst.setDouble(5, cthd.getGiaTien());
-           pst.setString(6, cthd.getStatus());
+           pst.setInt(6, cthd.getStatus());
            pst.executeUpdate();
        } catch(Exception e) {
            e.printStackTrace();
@@ -56,7 +54,7 @@ public class CthdDAO {
     public void removeCTHD (String idSP, int idHD) {
        try {
            Connection con = ConnectionProvider.getCon();
-           PreparedStatement pst = con.prepareStatement("UPDATE cthd SET STATUS = 'false' WHERE idSanPham LIKE ? AND idHoaDon LIKE ?");
+           PreparedStatement pst = con.prepareStatement("UPDATE cthd SET STATUS = 0 WHERE idSanPham LIKE ? AND idHoaDon LIKE ?");
            pst.setString(1, idSP);
            pst.setInt(2, idHD);
            pst.executeUpdate();

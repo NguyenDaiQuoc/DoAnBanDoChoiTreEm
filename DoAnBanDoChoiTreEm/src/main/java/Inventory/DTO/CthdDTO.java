@@ -13,7 +13,7 @@ public class CthdDTO {
     String tenSanPham, idSanPham;
     int soLuong;
     double giaTien;
-    String status;
+    int status;
     
     public CthdDTO() {
         idHoaDon = 0;
@@ -21,10 +21,10 @@ public class CthdDTO {
         tenSanPham = "";
         soLuong = 0;
         giaTien = 0;
-        status = "";
+        status = 0;
     }
     
-    public CthdDTO(int idHoaDon, String idSanPham, String tenSanPham, int soLuong, double giaTien, String status) {
+    public CthdDTO(int idHoaDon, String idSanPham, String tenSanPham, int soLuong, double giaTien, int status) {
         this.idHoaDon = idHoaDon;
         this.idSanPham = idSanPham;
         this.tenSanPham = tenSanPham;
@@ -73,11 +73,11 @@ public class CthdDTO {
         this.giaTien = giaTien;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }    
 }

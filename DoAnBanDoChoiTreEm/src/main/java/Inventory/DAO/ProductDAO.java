@@ -2,15 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoAn;
+package Inventory.DAO;
 
 import java.util.ArrayList;
-import DoAn.ProductDTO;
-import DoAn.DoChoiLapGhep;
-import DoAn.DoChoiPhuongTien;
-import DoAn.DoChoiTheoPhim;
-import DoAn.DoChoiThoiTrang;
-import DoAn.RoBot;
+import Inventory.DTO.ProductDTO;
+import Inventory.DTO.DoChoiLapGhep;
+import Inventory.DTO.DoChoiPhuongTien;
+import Inventory.DTO.DoChoiTheoPhim;
+import Inventory.DTO.DoChoiThoiTrang;
+import Inventory.DTO.RoBot;
 import Database.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -162,9 +162,32 @@ public class ProductDAO {
         ArrayList<ProductDTO> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "SELECT * FORM sanpham WHERE status = 1 AND id LIKE ?";
+            String sql = "SELECT * FROM sanpham WHERE status = 1 AND id LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + id + "%");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                ProductDTO product = new ProductDTO();
+                product.setId(rs.getString("id"));
+                product.setTen(rs.getString("ten"));
+                product.setGia(rs.getDouble("gia"));
+                product.setSoLuong(rs.getInt("soluong"));
+                productList.add(product);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return productList;
+    }
+    //Tim kiem san pham theo ten
+    public ArrayList<ProductDTO> searchProductByName(String name){
+        ArrayList<ProductDTO> productList = new ArrayList<>();
+        try {
+            Connection con = ConnectionProvider.getCon();
+            String sql = "SELECT * FROM sanpham WHERE status = 1 AND ten LIKE ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, "%" + name + "%");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 ProductDTO product = new ProductDTO();
