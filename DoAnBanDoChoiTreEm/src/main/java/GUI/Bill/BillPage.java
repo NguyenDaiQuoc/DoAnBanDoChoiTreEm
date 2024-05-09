@@ -7,12 +7,14 @@ package UI.Bill;
 import java.awt.CardLayout;
 import Bus.BillBUS;
 import Bus.CthdBUS;
+import Bus.PromotionBUS;
 import UI.HomePage; // !!!!!!!!!!!!
 import UI.Sales.SalesPage;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import Inventory.DTO.BillDTO;
 import Inventory.DTO.CthdDTO;
+import Inventory.DTO.PromotionDTO;
 import java.util.ArrayList;
 import java.awt.*;
 import java.text.ParseException;
@@ -30,6 +32,7 @@ public class BillPage extends javax.swing.JPanel {
     DefaultTableModel model1; // dùng cho bảng CTHD
     BillBUS bus = new BillBUS();
     CthdBUS bus1 = new CthdBUS();
+    PromotionBUS bus4 = new PromotionBUS();
     int selectedRow = -1;
     HomePage homepage;
     SalesPage salespage;
@@ -86,6 +89,8 @@ public class BillPage extends javax.swing.JPanel {
         jLabel23 = new javax.swing.JLabel();
         soCTHDField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        kmField = new javax.swing.JTextField();
         timkiemBtn2 = new javax.swing.JButton();
         thenBtn = new javax.swing.JButton();
         xoaBtn = new javax.swing.JButton();
@@ -204,6 +209,11 @@ public class BillPage extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("_________________________________________________");
 
+        jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel24.setText("Id khuyến mãi :");
+
+        kmField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -212,49 +222,47 @@ public class BillPage extends javax.swing.JPanel {
                 .addGap(30, 30, 30)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(kmField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel19))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fromDaySearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fromPriceSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(31, 31, 31)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel19)
-                                    .addComponent(jLabel13))
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGap(57, 57, 57)
-                                        .addComponent(fromPriceSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                        .addGap(58, 58, 58)
-                                        .addComponent(fromDaySearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(30, 30, 30)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel20)
-                                    .addComponent(jLabel18)))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel23)
-                                    .addComponent(jLabel17))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(idKHField, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                    .addComponent(idField)
-                                    .addComponent(tongTienField))
-                                .addGap(30, 30, 30)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel22)
-                                    .addComponent(jLabel21)
-                                    .addComponent(jLabel14))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(toPriceSearchField, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addComponent(ngayXuatField)
-                            .addComponent(soCTHDField)
-                            .addComponent(idNVField)
-                            .addComponent(toDaySearchField))
-                        .addGap(0, 53, Short.MAX_VALUE))
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel18)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel16))
-                        .addGap(22, 22, 22))))
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel17))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(idKHField, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(idField)
+                            .addComponent(tongTienField))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel22)
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel14)))
+                    .addComponent(jLabel16))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(toDaySearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toPriceSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ngayXuatField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(soCTHDField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idNVField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 53, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,23 +291,25 @@ public class BillPage extends javax.swing.JPanel {
                     .addComponent(tongTienField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22)
                     .addComponent(ngayXuatField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addGap(19, 19, 19)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(fromPriceSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel24)
+                    .addComponent(kmField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(toPriceSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20)
-                    .addComponent(toPriceSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(fromDaySearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel19))
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(toDaySearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel18)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                    .addComponent(fromPriceSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(fromDaySearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18)
+                    .addComponent(toDaySearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
         );
 
         javax.swing.GroupLayout displayActionPanelLayout = new javax.swing.GroupLayout(displayActionPanel);
@@ -315,7 +325,7 @@ public class BillPage extends javax.swing.JPanel {
             displayActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, displayActionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -391,7 +401,7 @@ public class BillPage extends javax.swing.JPanel {
         actionPanelLayout.setVerticalGroup(
             actionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, actionPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addGroup(actionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(timkiemBtn2)
                     .addComponent(thenBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -402,7 +412,7 @@ public class BillPage extends javax.swing.JPanel {
                 .addComponent(actionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(displayActionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addGap(17, 17, 17))
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -435,11 +445,11 @@ public class BillPage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(actionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(actionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -476,7 +486,8 @@ public class BillPage extends javax.swing.JPanel {
         String denGia = toPriceSearchField.getText();
         String tuNgay = fromDaySearchField.getText();
         String denNgay = toDaySearchField.getText();
-        loadBillsByKeyword(id, idNV, idKH, soCTHD, tongTien, ngayXuat, tuGia, denGia, tuNgay, denNgay);
+        String km = kmField.getText();
+        loadBillsByKeyword(id, idNV, idKH, soCTHD, tongTien, ngayXuat, tuGia, denGia, tuNgay, denNgay, km);
     }//GEN-LAST:event_timkiemBtnActionPerformed
 
     private void xoaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaBtnActionPerformed
@@ -515,6 +526,9 @@ public class BillPage extends javax.swing.JPanel {
             salespage.idHDField.setText(idField.getText());
             salespage.idNVField.setText(idNVField.getText());
             salespage.idKHField.setText(idKHField.getText());
+            salespage.idKMField.setText(kmField.getText());
+            ArrayList <PromotionDTO> pro = bus4.searchPromotionById(kmField.getText());
+            salespage.kMLabel.setText("KM / Giảm giá : " + pro.get(0).getPhanTramGiamGia() + "%");
             salespage.loadBill(idField.getText());
         } else {
             JOptionPane.showMessageDialog(null, "Hãy nhập id hóa đơn cần chỉnh sửa !");
@@ -542,8 +556,9 @@ public class BillPage extends javax.swing.JPanel {
             idNVField.setText(tableHoaDon.getValueAt(selectedRow, 1).toString());
             idKHField.setText(tableHoaDon.getValueAt(selectedRow, 2).toString());
             soCTHDField.setText(tableHoaDon.getValueAt(selectedRow, 3).toString());
-            tongTienField.setText(tableHoaDon.getValueAt(selectedRow, 4).toString());
-            ngayXuatField.setText(tableHoaDon.getValueAt(selectedRow, 5).toString());
+            tongTienField.setText(tableHoaDon.getValueAt(selectedRow, 5).toString());
+            ngayXuatField.setText(tableHoaDon.getValueAt(selectedRow, 6).toString());
+            kmField.setText(tableHoaDon.getValueAt(selectedRow, 4).toString());
         }
     }
     void clearTextField() {
@@ -557,6 +572,7 @@ public class BillPage extends javax.swing.JPanel {
             toPriceSearchField.setText("");
             fromDaySearchField.setText("");
             toDaySearchField.setText("");
+            kmField.setText("");
     }
     
 //    void getSelectedCTHDRowInfo() {
@@ -574,15 +590,16 @@ public class BillPage extends javax.swing.JPanel {
     void loadAllBills() {
         Vector header = new Vector();
         header.add("ID");
-        header.add("IdNV");
-        header.add("IdKH");
-        header.add("SoCTHD");
-        header.add("TongTien");
-        header.add("Ngay");
+        header.add("Id NV");
+        header.add("Id KH");
+        header.add("Số CTHD");
+        header.add("Id KM");
+        header.add("Tổng tiền");
+        header.add("Ngày xuất");
         model = new DefaultTableModel(header, 0);
         ArrayList<BillDTO> bills = bus.getAllBills();
         for (BillDTO bill : bills) {
-            String[] rowData = {String.valueOf(bill.getId()), bill.getIdNhanVien(), bill.getIdKhachHang(), String.valueOf(bill.getSoCTHD()), String.valueOf(bill.getTongTien()), String.valueOf(bill.getNgayXuat())};
+            String[] rowData = {String.valueOf(bill.getId()), bill.getIdNhanVien(), bill.getIdKhachHang(), String.valueOf(bill.getSoCTHD()), String.valueOf(bill.getIdKhuyenMai()), String.valueOf(bill.getTongTien()), String.valueOf(bill.getNgayXuat())};
             model.addRow(rowData);
         }
         tableHoaDon.setModel(model);
@@ -590,6 +607,7 @@ public class BillPage extends javax.swing.JPanel {
         tableHoaDon.getColumnModel().getColumn(1).setPreferredWidth(30);
         tableHoaDon.getColumnModel().getColumn(2).setPreferredWidth(30);
         tableHoaDon.getColumnModel().getColumn(3).setPreferredWidth(45);
+        tableHoaDon.getColumnModel().getColumn(4).setPreferredWidth(30);
     }
     
     void loadCTHD() {
@@ -610,12 +628,16 @@ public class BillPage extends javax.swing.JPanel {
                 }
             }
         }
-        tableCTHD.setModel(model1);
+        tableCTHD.setModel(model1); 
+        tableCTHD.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tableCTHD.getColumnModel().getColumn(1).setPreferredWidth(30);
+        tableCTHD.getColumnModel().getColumn(3).setPreferredWidth(30);
+        tableCTHD.getColumnModel().getColumn(4).setPreferredWidth(50);
     }
     
-    void loadBillsByKeyword(String id, String idNV, String idKH, String soCTHD, String tongTien, String ngayXuat, String tuGia, String denGia, String tuNgay, String denNgay) {
+    void loadBillsByKeyword(String id, String idNV, String idKH, String soCTHD, String tongTien, String ngayXuat, String tuGia, String denGia, String tuNgay, String denNgay, String km) {
         model.setRowCount(0);
-        ArrayList<BillDTO> bills = bus.getBillsByKeyword(id, idNV, idKH, soCTHD, tongTien, ngayXuat, tuGia, denGia, tuNgay, denNgay);
+        ArrayList<BillDTO> bills = bus.getBillsByKeyword(id, idNV, idKH, soCTHD, tongTien, ngayXuat, tuGia, denGia, tuNgay, denNgay, km);
         for (BillDTO bill : bills) {
             String[] rowData = {String.valueOf(bill.getId()), bill.getIdNhanVien(), bill.getIdKhachHang(), String.valueOf(bill.getSoCTHD()), String.valueOf(bill.getTongTien()), String.valueOf(bill.getNgayXuat())};
             model.addRow(rowData);
@@ -645,12 +667,14 @@ public class BillPage extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JTextField kmField;
     public javax.swing.JTextField ngayXuatField;
     public javax.swing.JTextField soCTHDField;
     private javax.swing.JButton suaBtn;
