@@ -192,13 +192,13 @@ public class tables {
             
             
             
-            rs = st.executeQuery("SHOW TABLES LIKE 'hoadon'");
+             rs = st.executeQuery("SHOW TABLES LIKE 'hoadon'");
             if (!rs.next()) {
-                st.executeUpdate("create table hoadon(id int AUTO_INCREMENT primary key, idNhanVien varchar(20), idKhachHang varchar(20), soLuongCTHD int, idKhuyenMai int, tongTien double, ngayXuat Date, status int DEFAULT 1) AUTO_INCREMENT = 3000");
+                st.executeUpdate("create table hoadon(id varchar(20) primary key, idNhanVien varchar(20), idKhachHang varchar(20), soLuongCTHD int, idKhuyenMai int, tongTien double, ngayXuat Date, status int DEFAULT 1)");
             }
             rs = st.executeQuery("SHOW TABLES LIKE 'cthd'");
             if (!rs.next()) {
-                st.executeUpdate("create table cthd(idHoaDon int, idSanPham varchar(20), tenSanPham varchar(100), soLuong int, giaTien double, status int DEFAULT 1)");
+                st.executeUpdate("create table cthd(idHoaDon varchar(20), idSanPham varchar(20), tenSanPham varchar(100), soLuong int, giaTien double, status int DEFAULT 1)");
             }
             JOptionPane.showMessageDialog(null, "Da tao bang thanh cong");
         } catch (Exception e) {
