@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -10,18 +10,18 @@ import DoAn.ProductDTO;
 import DoAn.DoChoiLapGhep;
 import DoAn.DoChoiPhuongTien;
 import DoAn.DoChoiTheoPhim;
-import DoAn.DoChoiThoiTrang;
 import DoAn.RoBot;
 /**
  *
  * @author ADMIN
  */
 class ProductBUS {
-    private ProductDAO productDAO;
-    
+    private ProductDAO productDAO = new ProductDAO();
+
     public ProductBUS() {
-        productDAO = new ProductDAO();
+        
     }
+    
     
     //Lay THong Tin Chung cua Tat San Pham
     public ArrayList<ProductDTO> getAllProducts(){
@@ -29,48 +29,59 @@ class ProductBUS {
     }
     //Lay Thong Tin Tung Loai San Pham
     public ArrayList<DoChoiPhuongTien> getAllVehicleToys(){
-        return productDAO.getAllVehicleToys();
+        ArrayList<DoChoiPhuongTien> products = productDAO.getAllVehicleToys();
+        return products;
     }
     
     public ArrayList<DoChoiTheoPhim> getAllMovieToys(){
-        return productDAO.getAllMovieToys();
+        ArrayList<DoChoiTheoPhim> products = productDAO.getAllMovieToys();
+        return products;
     }
     
     public ArrayList<DoChoiThoiTrang> getAllFashionToys(){
-        return productDAO.getAllFashionToys();
+        ArrayList<DoChoiThoiTrang> products = productDAO.getAllFashionToys();
+        return products;
     }
     
     public ArrayList<DoChoiLapGhep> getAllAssemblyToys(){
-        return productDAO.getAllAssemblyToys();
+        ArrayList<DoChoiLapGhep> products = productDAO.getAllAssemblyToys();
+        return products;
     }
     
     public ArrayList<RoBot> getAllRoBotToys(){
-        return productDAO.getAllRoBotToys();
+        ArrayList<RoBot> products = productDAO.getAllRoBotToys();
+        return products;
     }
     
     //Tim Kiem San Pham Theo id
     public ArrayList<ProductDTO> searchProductById(String id){
-        return productDAO.searchProductById(id);
+        ArrayList<ProductDTO> products = productDAO.searchProductById(id);
+        return products;
     }
     //Tim Kiem Tung Loai San Pham Theo id
     public ArrayList<DoChoiPhuongTien> searchVehicleToysById(String id){
-        return productDAO.searchVehicleToysById(id);
+        ArrayList<DoChoiPhuongTien> products = productDAO.searchVehicleToysById(id);
+        return products;
     }
     
     public ArrayList<DoChoiTheoPhim> searchMovieToysById(String id){
-        return productDAO.searchMovieToysById(id);
+        ArrayList<DoChoiTheoPhim> products = productDAO.searchMovieToysById(id);
+        return products;
     }
     
     public ArrayList<DoChoiThoiTrang> searchFashionToysById(String id){
-        return productDAO.searchFashionToysById(id);
+        ArrayList<DoChoiThoiTrang> products = productDAO.searchFashionToysById(id);
+        return products;
     }
     
     public ArrayList<DoChoiLapGhep> searchAssemblyToysById(String id){
-        return productDAO.searchAssemblyToysById(id);
+        ArrayList<DoChoiLapGhep> products = productDAO.searchAssemblyToysById(id);
+        return products;
     }
     
     public ArrayList<RoBot> searchRoBotToysById(String id){
-        return productDAO.searchRoBotToysById(id);
+        ArrayList<RoBot> products = productDAO.searchRoBotToysById(id);
+        return products;
     }
     
     //Them Mot San Pham Vao Bang San Pham
