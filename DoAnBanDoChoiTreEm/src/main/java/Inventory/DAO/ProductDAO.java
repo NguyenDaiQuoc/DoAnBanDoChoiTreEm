@@ -189,13 +189,13 @@ public class ProductDAO {
         return productList;
     }
     //Tim Kiem Tung Loai San Pham Theo id
-    public ArrayList<DoChoiPhuongTien> searchVehicleToysByKeyword(String keyword){
+    public ArrayList<DoChoiPhuongTien> searchVehicleToysById(String id){
         ArrayList<DoChoiPhuongTien> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
             String sql = "SELECT * FROM dochoiphuongtien WHERE id LIKE ? AND status = 1";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, "%" + keyword + "%");
+            ps.setString(1, "%" + id + "%");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 DoChoiPhuongTien product = new DoChoiPhuongTien();
