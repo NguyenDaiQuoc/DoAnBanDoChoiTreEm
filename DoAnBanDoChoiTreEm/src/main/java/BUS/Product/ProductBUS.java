@@ -159,4 +159,10 @@ class ProductBUS {
     public void updateRoBotToy(RoBot product){
         productDAO.updateRoBotToy(product);
     }
+    public ArrayList<ProductDTO> searchProductByName(String name) {
+        return productDAO.searchProductByName(name);
+    }
+    public void decreaseProductQuantity(String ten, int soLuong) {
+        productDAO.decreaseProductQuantity(ten, soLuong);
+    }
 }
