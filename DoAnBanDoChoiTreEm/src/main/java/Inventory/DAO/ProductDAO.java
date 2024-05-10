@@ -638,14 +638,14 @@ public class ProductDAO {
         
         return productList;
     }
-    //KHi bán sản phẩm soLuongConLai giảm
-    public void decreaseProductQuantity(String id, int soLuongBan){
+        //KHi bán sản phẩm soLuongConLai giảm
+    public void decreaseProductQuantity(String ten, int soLuongBan){
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "UPDATE sanpham SET soLuongConLai = soLuongConLai - ? WHERE id = ?";
+            String sql = "UPDATE sanpham SET soLuongConLai = soLuongConLai - ? WHERE ten LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, soLuongBan);
-            ps.setString(2, id);
+            ps.setString(2, ten);
             ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
