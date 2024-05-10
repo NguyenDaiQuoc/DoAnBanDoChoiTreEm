@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Inventory.DTO;
+package DoAn;
 
 /**
  *
@@ -14,8 +14,8 @@ public class RoBot extends ProductDTO {
     public RoBot() {
     }
 
-    public RoBot(String id, String ten, String xuatxu, double gia, int soLuong, String loaiRoBot) {
-        super(id, ten, xuatxu, gia, soLuong);
+    public RoBot(String id, String ten, double gia, String xuatxu, int soLuong, int soLuongConLai, String loaiRoBot) {
+        super(id, ten, gia, xuatxu, soLuong, soLuongConLai);
         this.loaiRoBot = loaiRoBot;
     }
 

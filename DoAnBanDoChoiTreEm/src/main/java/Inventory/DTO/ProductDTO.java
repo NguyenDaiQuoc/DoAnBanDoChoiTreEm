@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Inventory.DTO;
+package DoAn;
 
 /**
  *
@@ -11,19 +11,21 @@ package Inventory.DTO;
 public class ProductDTO {
     private String id;
     private String ten;
-    private String xuatxu;
     private double gia;
+    private String xuatxu;
     private int soLuong;
+    private int soLuongConLai;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(String id, String ten, String xuatxu, double gia, int soLuong) {
+    public ProductDTO(String id, String ten, double gia, String xuatxu, int soLuong, int soLuongConLai) {
         this.id = id;
         this.ten = ten;
-        this.xuatxu = xuatxu;
         this.gia = gia;
+        this.xuatxu = xuatxu;
         this.soLuong = soLuong;
+        this.soLuongConLai = soLuongConLai;
     }
 
     public String getId() {
@@ -34,16 +36,20 @@ public class ProductDTO {
         return ten;
     }
 
-    public String getXuatxu() {
-        return xuatxu;
-    }
-
     public double getGia() {
         return gia;
     }
 
+    public String getXuatxu() {
+        return xuatxu;
+    }
+
     public int getSoLuong() {
         return soLuong;
+    }
+
+    public int getSoLuongConLai() {
+        return soLuongConLai;
     }
 
     public void setId(String id) {
@@ -54,18 +60,23 @@ public class ProductDTO {
         this.ten = ten;
     }
 
-    public void setXuatxu(String xuatxu) {
-        this.xuatxu = xuatxu;
-    }
-
     public void setGia(double gia) {
         this.gia = gia;
+    }
+
+    public void setXuatxu(String xuatxu) {
+        this.xuatxu = xuatxu;
     }
 
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
 
+    public void setSoLuongConLai(int soLuongConLai) {
+        this.soLuongConLai = soLuongConLai;
+    }
+    
+    
     
 
     
