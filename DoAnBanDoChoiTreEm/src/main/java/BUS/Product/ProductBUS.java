@@ -25,7 +25,8 @@ class ProductBUS {
     
     //Lay THong Tin Chung cua Tat San Pham
     public ArrayList<ProductDTO> getAllProducts(){
-        return productDAO.getAllProducts();
+        ArrayList<ProductDTO> products = productDAO.getAllProducts();
+        return products;
     }
     //Lay Thong Tin Tung Loai San Pham
     public ArrayList<DoChoiPhuongTien> getAllVehicleToys(){
