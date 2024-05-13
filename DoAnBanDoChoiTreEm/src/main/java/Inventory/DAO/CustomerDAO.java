@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class CustomerDAO {
-    
+
     public ArrayList<CustomerDTO> getAllCustomers() {
         ArrayList<CustomerDTO> customers = new ArrayList<>();
         try {
@@ -18,7 +18,7 @@ public class CustomerDAO {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM khachhang");
             while (rs.next()) {
-                customers.add(new CustomerDTO(rs.getInt("id"), rs.getString("ten"), rs.getString("email"), rs.getString("diaChi"), rs.getString("sdt")));
+                customers.add(new CustomerDTO(rs.getString("id"), rs.getString("ten"), rs.getString("email"), rs.getString("diaChi"), rs.getString("sdt")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,7 +37,7 @@ public class CustomerDAO {
             pst.setString(4, "%" + keyword + "%");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                customers.add(new CustomerDTO(rs.getInt("id"), rs.getString("ten"), rs.getString("email"), rs.getString("diaChi"), rs.getString("sdt")));
+                customers.add(new CustomerDTO(rs.getString("id"), rs.getString("ten"), rs.getString("email"), rs.getString("diaChi"), rs.getString("sdt")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,22 +48,23 @@ public class CustomerDAO {
     public void addCustomer(CustomerDTO customer) {
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement pst = con.prepareStatement("INSERT INTO khachhang (ten, email, diaChi, sdt) VALUES (?, ?, ?, ?)");
-            pst.setString(1, customer.getName());
-            pst.setString(2, customer.getEmail());
-            pst.setString(3, customer.getAddress());
-            pst.setString(4, customer.getSdt());
+            PreparedStatement pst = con.prepareStatement("INSERT INTO khachhang (id, ten, email, diaChi, sdt) VALUES (?, ?, ?, ?, ?)");
+            pst.setString(1, customer.getId());
+            pst.setString(2, customer.getName());
+            pst.setString(3, customer.getEmail());
+            pst.setString(4, customer.getAddress());
+            pst.setString(5, customer.getSdt());
             pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void removeCustomer(int id) {
+    public void removeCustomer(String id) { // Change this from int to String
         try {
             Connection con = ConnectionProvider.getCon();
             PreparedStatement pst = con.prepareStatement("DELETE FROM khachhang WHERE id = ?");
-            pst.setInt(1, id);
+            pst.setString(1, id); // Change this from setInt to setString
             pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +79,7 @@ public class CustomerDAO {
             pst.setString(2, customer.getEmail());
             pst.setString(3, customer.getAddress());
             pst.setString(4, customer.getSdt());
-            pst.setInt(5, customer.getId());
+            pst.setString(5, customer.getId()); // Change this from setInt to setString
             pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
