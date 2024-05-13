@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import java.util.Random;
 
 public class tables {
 
@@ -27,10 +28,16 @@ public class tables {
 
             rs = st.executeQuery("SHOW TABLES LIKE 'khachhang'");
             if (!rs.next()) {
-                st.executeUpdate("create table khachhang(id int AUTO_INCREMENT primary key, ten varchar(200), email varchar(200), diaChi varchar(200), sdt varchar(50), status int DEFAULT 1)");
-                for (int i = 1; i <= 10; i++) {
-                    st.executeUpdate("insert into khachhang (ten, email, diaChi, sdt) values('Khach Hang " + i + "','kh" + i + "@mail.com','Dia Chi " + i + "','12345" + i + "')");
-                }
+                st.executeUpdate("create table khachhang(id varchar(10) primary key, ten varchar(200), email varchar(200), diaChi varchar(200), sdt varchar(50), status int DEFAULT 1)");
+            }
+
+            for (int i = 1; i <= 10; i++) {
+                String id = "KH" + String.format("%02d", i);
+                String ten = "Nguyen Van " + (char) ('A' + i - 1);
+                String email = "kh" + i + "@mail.com";
+                String diaChi = "Đường số " + i + " Vietnam";
+                String sdt = "09" + String.format("%08d", new Random().nextInt(100000000));
+                st.executeUpdate("insert into khachhang (id, ten, email, diaChi, sdt) values('" + id + "', '" + ten + "', '" + email + "', '" + diaChi + "', '" + sdt + "')");
             }
             
             rs = st.executeQuery("SHOW TABLES LIKE 'dochoiphuongtien'");
@@ -182,15 +189,14 @@ public class tables {
             }
             
 
-            rs = st.executeQuery("SHOW TABLES LIKE 'khuyenmai'");
+           rs = st.executeQuery("SHOW TABLES LIKE 'khuyenmai'");
             if (!rs.next()) {
-                st.executeUpdate("create table khuyenmai(id int AUTO_INCREMENT primary key, noiDung varchar(200), phanTramGiamGia decimal(5,2), status int DEFAULT 1)");
-            st.executeUpdate("insert into khuyenmai (noiDung, phanTramGiamGia) values('Black Friday', 40.00)");
-            st.executeUpdate("insert into khuyenmai (noiDung, phanTramGiamGia) values('Lễ Giáng Sinh', 20.00)");
-            st.executeUpdate("insert into khuyenmai (noiDung, phanTramGiamGia) values('Tết Nguyên Đán', 25.00)");
+                st.executeUpdate("create table khuyenmai(id varchar(10) primary key, noiDung varchar(200), phanTramGiamGia decimal(5,2), status int DEFAULT 1)");
             }
-            
-            
+
+            st.executeUpdate("insert into khuyenmai (id, noiDung, phanTramGiamGia) values('KM01', 'Black Friday', 40.00)");
+            st.executeUpdate("insert into khuyenmai (id, noiDung, phanTramGiamGia) values('KM02', 'Lễ Giáng Sinh', 20.00)");
+            st.executeUpdate("insert into khuyenmai (id, noiDung, phanTramGiamGia) values('KM03', 'Tết Nguyên Đán', 25.00)");
             
              rs = st.executeQuery("SHOW TABLES LIKE 'hoadon'");
             if (!rs.next()) {
