@@ -9,12 +9,14 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class PromotionPage extends JPanel {
+
     private DefaultTableModel tableModel;
     private JTable promotionTable;
     private JTextField noiDungField, phanTramGiamGiaField, searchField;
     private JButton addButton, removeButton, searchButton, cancelButton, editButton, saveButton;
-    private int editingPromotionId = -1; // ID của khuyến mãi đang được chỉnh sửa
     private PromotionBUS bus = new PromotionBUS();
+    private JTextField idField = new JTextField(10); // New field for ID
+    private String editingPromotionId = null; // Change this from int to String
 
     public PromotionPage() {
         super();
@@ -46,6 +48,8 @@ public class PromotionPage extends JPanel {
         saveButton = new JButton("Save");
 
         JPanel inputPanel = new JPanel();
+        inputPanel.add(new JLabel("ID:"));
+        inputPanel.add(idField);
         inputPanel.add(new JLabel("Nội dung:"));
         inputPanel.add(noiDungField);
         inputPanel.add(new JLabel("Phần trăm giảm giá:"));
@@ -60,7 +64,29 @@ public class PromotionPage extends JPanel {
         inputPanel.add(saveButton);
 
         addButton.addActionListener(e -> {
-            PromotionDTO newPromotion = new PromotionDTO(0, noiDungField.getText(), Double.parseDouble(phanTramGiamGiaField.getText()));
+            // Get the id from the idField
+            String id = idField.getText();
+            if (id.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Xin hãy nhập ID.");
+                return;
+            }
+
+            // Check if id starts with "KM"
+            if (!id.startsWith("KM")) {
+                JOptionPane.showMessageDialog(null, "ID phải bắt đầu bằng 'KM'.");
+                return;
+            }
+
+            // Check if id already exists in the database
+            ArrayList<PromotionDTO> existingPromotions = bus.getAllPromotions();
+            for (PromotionDTO promotion : existingPromotions) {
+                if (promotion.getId().equals(id)) {
+                    JOptionPane.showMessageDialog(null, "ID đã tồn tại. Vui lòng nhập ID khác.");
+                    return;
+                }
+            }
+
+            PromotionDTO newPromotion = new PromotionDTO(id, noiDungField.getText(), Double.parseDouble(phanTramGiamGiaField.getText()));
             bus.addPromotion(newPromotion);
             loadAllPromotions();
         });
@@ -69,7 +95,7 @@ public class PromotionPage extends JPanel {
             int selectedRow = promotionTable.getSelectedRow();
             if (selectedRow != -1) {
                 String id = promotionTable.getValueAt(selectedRow, 0).toString();
-                bus.removePromotion(Integer.parseInt(id));
+                bus.removePromotion(id); // No need to parse id to int
                 loadAllPromotions();
             }
         });
@@ -77,18 +103,18 @@ public class PromotionPage extends JPanel {
         editButton.addActionListener(e -> {
             int selectedRow = promotionTable.getSelectedRow();
             if (selectedRow != -1) {
-                editingPromotionId = Integer.parseInt(promotionTable.getValueAt(selectedRow, 0).toString());
+                editingPromotionId = promotionTable.getValueAt(selectedRow, 0).toString(); // Change this from Integer.parseInt(...) to toString()
                 noiDungField.setText(promotionTable.getValueAt(selectedRow, 1).toString());
                 phanTramGiamGiaField.setText(promotionTable.getValueAt(selectedRow, 2).toString());
             }
         });
 
         saveButton.addActionListener(e -> {
-            if (editingPromotionId != -1) {
+            if (editingPromotionId != null) { // Change this from -1 to null
                 PromotionDTO updatedPromotion = new PromotionDTO(editingPromotionId, noiDungField.getText(), Double.parseDouble(phanTramGiamGiaField.getText()));
                 bus.updatePromotion(updatedPromotion);
                 loadAllPromotions();
-                editingPromotionId = -1;
+                editingPromotionId = null; // Change this from -1 to null
             }
         });
 
