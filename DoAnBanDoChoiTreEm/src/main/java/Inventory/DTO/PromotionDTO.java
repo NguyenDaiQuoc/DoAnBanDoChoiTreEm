@@ -2,22 +2,22 @@
 package Inventory.DTO;
 
 public class PromotionDTO {
-    private int id;
+    private String id; // Change this from int to String
     private String noiDung;
     private double phanTramGiamGia;
 
-    public PromotionDTO(int id, String noiDung, double phanTramGiamGia) {
+    public PromotionDTO(String id, String noiDung, double phanTramGiamGia) { // Change this from int to String
         this.id = id;
         this.noiDung = noiDung;
         this.phanTramGiamGia = phanTramGiamGia;
     }
 
-    // getters and setters
-    public int getId() {
+    // Getter and setter for id
+    public String getId() { // Change this from int to String
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) { // Change this from int to String
         this.id = id;
     }
 
