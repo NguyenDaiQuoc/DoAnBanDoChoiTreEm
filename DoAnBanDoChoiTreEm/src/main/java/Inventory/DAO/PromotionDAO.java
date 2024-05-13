@@ -19,7 +19,7 @@ public class PromotionDAO {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM khuyenmai");
             while (rs.next()) {
-                promotions.add(new PromotionDTO(rs.getInt("id"), rs.getString("noiDung"), rs.getDouble("phanTramGiamGia")));
+                promotions.add(new PromotionDTO(rs.getString("id"), rs.getString("noiDung"), rs.getDouble("phanTramGiamGia"))); // Change rs.getInt("id") to rs.getString("id")
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -36,7 +36,7 @@ public class PromotionDAO {
             pst.setString(2, "%" + keyword + "%");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                promotions.add(new PromotionDTO(rs.getInt("id"), rs.getString("noiDung"), rs.getDouble("phanTramGiamGia")));
+                promotions.add(new PromotionDTO(rs.getString("id"), rs.getString("noiDung"), rs.getDouble("phanTramGiamGia"))); // Change rs.getInt("id") to rs.getString("id")
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,20 +47,21 @@ public class PromotionDAO {
     public void addPromotion(PromotionDTO promotion) {
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement pst = con.prepareStatement("INSERT INTO khuyenmai (noiDung, phanTramGiamGia) VALUES (?, ?)");
-            pst.setString(1, promotion.getNoiDung());
-            pst.setDouble(2, promotion.getPhanTramGiamGia());
+            PreparedStatement pst = con.prepareStatement("INSERT INTO khuyenmai (id, noiDung, phanTramGiamGia) VALUES (?, ?, ?)");
+            pst.setString(1, promotion.getId());
+            pst.setString(2, promotion.getNoiDung());
+            pst.setDouble(3, promotion.getPhanTramGiamGia());
             pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void removePromotion(int id) {
+    public void removePromotion(String id) {
         try {
             Connection con = ConnectionProvider.getCon();
             PreparedStatement pst = con.prepareStatement("DELETE FROM khuyenmai WHERE id = ?");
-            pst.setInt(1, id);
+            pst.setString(1, id); // Change pst.setInt to pst.setString
             pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,11 +75,11 @@ public class PromotionDAO {
             Connection con = ConnectionProvider.getCon();
             String sql = "SELECT * FROM khuyenmai WHERE status = 1 AND id LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, "%" + id + "%");
+            ps.setString(1, "%" + id + "%"); // Change ps.setInt to ps.setString
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                PromotionDTO promotion = new PromotionDTO(rs.getInt("id"), rs.getString("noiDung"), rs.getDouble("phanTramGiamGia"));
-                promotion.setId(rs.getInt("id"));
+                PromotionDTO promotion = new PromotionDTO(rs.getString("id"), rs.getString("noiDung"), rs.getDouble("phanTramGiamGia")); // Change rs.getInt("id") to rs.getString("id")
+                promotion.setId(rs.getString("id")); // Change rs.getInt("id") to rs.getString("id")
                 promotion.setNoiDung(rs.getString("noiDung"));
                 promotion.setPhanTramGiamGia(rs.getDouble("phanTramGiamGia"));
                 promotionList.add(promotion);
@@ -96,7 +97,7 @@ public class PromotionDAO {
             PreparedStatement pst = con.prepareStatement("UPDATE khuyenmai SET noiDung = ?, phanTramGiamGia = ? WHERE id = ?");
             pst.setString(1, promotion.getNoiDung());
             pst.setDouble(2, promotion.getPhanTramGiamGia());
-            pst.setInt(3, promotion.getId());
+            pst.setString(3, promotion.getId()); // Change pst.setInt to pst.setString
             pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
