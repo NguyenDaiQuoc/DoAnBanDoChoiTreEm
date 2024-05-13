@@ -2,13 +2,14 @@
 package Inventory.DTO;
 
 public class CustomerDTO {
-    private int id;
+
+    private String id; // Change this from int to String
     private String name;
     private String email;
     private String address;
     private String sdt;
 
-    public CustomerDTO(int id, String name, String email, String address, String sdt) {
+    public CustomerDTO(String id, String name, String email, String address, String sdt) { // Change this from int to String
         this.id = id;
         this.name = name;
         this.email = email;
@@ -17,11 +18,11 @@ public class CustomerDTO {
     }
 
     // getters and setters
-    public int getId() {
+    public String getId() { // Change this from int to String
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) { // Change this from int to String
         this.id = id;
     }
 
