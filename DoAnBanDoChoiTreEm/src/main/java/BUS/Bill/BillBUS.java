@@ -13,22 +13,41 @@ import java.util.ArrayList;
 public class BillBUS {
     public static ArrayList<BillDTO> dshoadon;
     BillDAO dao = new BillDAO();
-    public BillBUS(){
-        dshoadon = new ArrayList<>();
-    }
+    public BillBUS(){}
     
     public ArrayList<BillDTO> getAllBills() {
         return dao.getAllBills();
     }
-
-    public ArrayList<BillDTO> getBillsByKeyword(String id, String idNV, String idKH, String soCTHD, String tongTien, String ngayXuat, String tuGia, String denGia, String tuNgay, String denNgay) {
-        return dao.getBillsByKeyword(id, idNV, idKH, soCTHD, tongTien, ngayXuat, tuGia, denGia, tuNgay, denNgay);
+    
+    void getDs() {
+        if(dshoadon == null) {
+            dshoadon = new ArrayList<BillDTO>();
+            dshoadon = dao.getAllBills1();
+        }
+    }
+    
+    public ArrayList<BillDTO> getCurrentBillId() {
+        return dao.getAllBills1();
     }
 
+//    public ArrayList<BillDTO> getBillsByKeyword(String id, String idNV, String idKH, String soCTHD, String tongTien, String ngayXuat, String tuGia, String denGia, String tuNgay, String denNgay,String km) {
+//        return dao.getBillsByKeyword(id, idNV, idKH, soCTHD, tongTien, ngayXuat, tuGia, denGia, tuNgay, denNgay, km);
+//    }
+
+    public boolean checkAvaiable(int id) {
+        getDs();
+        for(BillDTO hd : dshoadon) {
+            if(hd.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void addBill(BillDTO bill) {
-        dao.addBill(bill);
+            dao.addBill(bill);
     }
-
+    
     public void removeBill(int id) {
         dao.removeBill(id);
     }
