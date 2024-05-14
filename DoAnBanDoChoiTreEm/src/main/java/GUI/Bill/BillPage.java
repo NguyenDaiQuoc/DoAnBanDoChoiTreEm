@@ -31,11 +31,11 @@ public class BillPage extends javax.swing.JPanel {
     DefaultTableModel model;
     DefaultTableModel model1; // dùng cho bảng CTHD
     BillBUS bus = new BillBUS();
-    CthdBUS bus1 = new CthdBUS();
     PromotionBUS bus4 = new PromotionBUS();
     int selectedRow = -1;
     HomePage homepage;
     SalesPage salespage;
+    CthdBUS bus1 = new CthdBUS();
     /**
      * Creates new form BillPage
      */
@@ -342,6 +342,7 @@ public class BillPage extends javax.swing.JPanel {
 
         thenBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         thenBtn.setText("Thêm");
+        thenBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         thenBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 thenBtnActionPerformed(evt);
@@ -350,6 +351,7 @@ public class BillPage extends javax.swing.JPanel {
 
         xoaBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         xoaBtn.setText("Xóa");
+        xoaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         xoaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 xoaBtnActionPerformed(evt);
@@ -358,6 +360,7 @@ public class BillPage extends javax.swing.JPanel {
 
         timkiemBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         timkiemBtn.setText("Tìm kiếm");
+        timkiemBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         timkiemBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 timkiemBtnActionPerformed(evt);
@@ -366,6 +369,7 @@ public class BillPage extends javax.swing.JPanel {
 
         suaBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         suaBtn.setText("Chỉnh sửa");
+        suaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         suaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 suaBtnActionPerformed(evt);
@@ -487,7 +491,53 @@ public class BillPage extends javax.swing.JPanel {
         String tuNgay = fromDaySearchField.getText();
         String denNgay = toDaySearchField.getText();
         String km = kmField.getText();
-        loadBillsByKeyword(id, idNV, idKH, soCTHD, tongTien, ngayXuat, tuGia, denGia, tuNgay, denNgay, km);
+        Vector header = new Vector();
+        header.add("ID");
+        header.add("Id NV");
+        header.add("Id KH");
+        header.add("Số CTHD");
+        header.add("Id KM");
+        header.add("Tổng tiền");
+        header.add("Ngày xuất");
+        model = new DefaultTableModel(header, 0);
+        ArrayList<BillDTO> bills = bus.getAllBills();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        long from = Long.MAX_VALUE;
+        long to = Long.MIN_VALUE;
+        if(tuGia.equals("") && !denGia.equals("") || !tuGia.equals("") && denGia.equals("") || tuNgay.equals("") && !denNgay.equals("") || !tuNgay.equals("") && denNgay.equals("")) {
+            JOptionPane.showMessageDialog(null, "Hãy điền đầy đủ thông tin tìm kiếm !");
+        } else {
+            if(!tuNgay.equals("") && !denNgay.equals("")) {
+                try {
+                    from = sdf.parse(tuNgay).getTime();
+                    to = sdf.parse(denNgay).getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(tuGia.equals("") && denGia.equals("")) {
+                tuGia = "999999999999999999999999999999999999";
+                denGia = "0";
+            }
+            for(BillDTO bill : bills) {
+                long billDate = bill.getNgayXuat().getTime();
+                if( String.valueOf(bill.getId()).equals(id) || bill.getIdNhanVien().equals(idNV) || bill.getIdKhachHang().equals(idKH) || String.valueOf(bill.getSoCTHD()).equalsIgnoreCase(soCTHD) || 
+                    String.valueOf(bill.getIdKhuyenMai()).equals(km) || String.valueOf(bill.getTongTien()).equals(tongTien) || String.valueOf(bill.getNgayXuat()).equals(ngayXuat) ||
+                   (billDate >= from && billDate <= to) || (bill.getTongTien() >= Double.parseDouble(tuGia) && bill.getTongTien( ) <= Double.parseDouble(denGia))) {
+                        String[] rowData = {String.valueOf(bill.getId()), bill.getIdNhanVien(), bill.getIdKhachHang(), String.valueOf(bill.getSoCTHD()), String.valueOf(bill.getIdKhuyenMai()), String.valueOf(bill.getTongTien()), String.valueOf(bill.getNgayXuat())};
+                        model.addRow(rowData);
+                        System.out.println(bill.getId());
+                }
+            }
+            tableHoaDon.setModel(model);
+            tableHoaDon.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tableHoaDon.getColumnModel().getColumn(1).setPreferredWidth(30);
+            tableHoaDon.getColumnModel().getColumn(2).setPreferredWidth(30);
+            tableHoaDon.getColumnModel().getColumn(3).setPreferredWidth(45);
+            tableHoaDon.getColumnModel().getColumn(4).setPreferredWidth(30);
+        }
+        // tìm kiếm dưới DAO => bỏ
+//        loadBillsByKeyword(id, idNV, idKH, soCTHD, tongTien, ngayXuat, tuGia, denGia, tuNgay, denNgay, km);
     }//GEN-LAST:event_timkiemBtnActionPerformed
 
     private void xoaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaBtnActionPerformed
@@ -523,10 +573,11 @@ public class BillPage extends javax.swing.JPanel {
             salespage.idNVLabel.setText("Id nhân viên : " + idNVField.getText());
             salespage.idLabel.setText("Id hóa đơn : "+ idField.getText());
             salespage.tongLabel.setText("Tổng cộng : " + tongTienField.getText());
+            salespage.idHDField.setEnabled(false);
             salespage.idHDField.setText(idField.getText());
             salespage.idNVField.setText(idNVField.getText());
-            salespage.idKHField.setText(idKHField.getText());
-            salespage.idKMField.setText(kmField.getText());
+            salespage.idKMCB.setSelectedItem(kmField.getText());
+            salespage.idKHCB.setSelectedItem(idKHField.getText());
             ArrayList <PromotionDTO> pro = bus4.searchPromotionById(kmField.getText());
             salespage.kMLabel.setText("KM / Giảm giá : " + pro.get(0).getPhanTramGiamGia() + "%");
             salespage.loadBill(idField.getText());
@@ -635,15 +686,15 @@ public class BillPage extends javax.swing.JPanel {
         tableCTHD.getColumnModel().getColumn(4).setPreferredWidth(50);
     }
     
-    void loadBillsByKeyword(String id, String idNV, String idKH, String soCTHD, String tongTien, String ngayXuat, String tuGia, String denGia, String tuNgay, String denNgay, String km) {
-        model.setRowCount(0);
-        ArrayList<BillDTO> bills = bus.getBillsByKeyword(id, idNV, idKH, soCTHD, tongTien, ngayXuat, tuGia, denGia, tuNgay, denNgay, km);
-        for (BillDTO bill : bills) {
-            String[] rowData = {String.valueOf(bill.getId()), bill.getIdNhanVien(), bill.getIdKhachHang(), String.valueOf(bill.getSoCTHD()), String.valueOf(bill.getTongTien()), String.valueOf(bill.getNgayXuat())};
-            model.addRow(rowData);
-        }
-        tableHoaDon.setModel(model);
-    }
+//    void loadBillsByKeyword(String id, String idNV, String idKH, String soCTHD, String tongTien, String ngayXuat, String tuGia, String denGia, String tuNgay, String denNgay, String km) {
+//        model.setRowCount(0);
+//        ArrayList<BillDTO> bills = bus.getBillsByKeyword(id, idNV, idKH, soCTHD, tongTien, ngayXuat, tuGia, denGia, tuNgay, denNgay, km);
+//        for (BillDTO bill : bills) {
+//            String[] rowData = {String.valueOf(bill.getId()), bill.getIdNhanVien(), bill.getIdKhachHang(), String.valueOf(bill.getSoCTHD()), String.valueOf(bill.getTongTien()), String.valueOf(bill.getNgayXuat())};
+//            model.addRow(rowData);
+//        }
+//        tableHoaDon.setModel(model);
+//    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel actionLabel;
     private javax.swing.JLabel actionLabel4;
