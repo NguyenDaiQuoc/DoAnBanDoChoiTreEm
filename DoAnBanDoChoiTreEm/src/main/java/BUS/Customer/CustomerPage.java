@@ -6,6 +6,7 @@ import Inventory.DTO.CustomerDTO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 public class CustomerPage extends JPanel {
@@ -14,7 +15,7 @@ public class CustomerPage extends JPanel {
     private DefaultTableModel tableModel;
     private JTable customerTable;
     private JTextField nameField, emailField, addressField, sdtField, searchField;
-    private JButton addButton, removeButton, searchButton, cancelButton, editButton, saveButton;
+    private JButton addButton, removeButton, searchButton, cancelButton, editButton, saveButton, importButton, exportButton;
     private String editingCustomerId = null;
     private CustomerBUS bus = new CustomerBUS();
 
@@ -50,6 +51,8 @@ public class CustomerPage extends JPanel {
         cancelButton = new JButton("Cancel");
         editButton = new JButton("Edit");
         saveButton = new JButton("Save");
+        importButton = new JButton("Import");
+        exportButton = new JButton("Export");
 
         JPanel inputPanel = new JPanel();
         inputPanel.add(new JLabel("ID:"));
@@ -70,6 +73,8 @@ public class CustomerPage extends JPanel {
         inputPanel.add(searchButton);
         inputPanel.add(cancelButton);
         inputPanel.add(saveButton);
+        inputPanel.add(importButton);
+        inputPanel.add(exportButton);
 
         addButton.addActionListener(e -> {
             // Kiểm tra dữ liệu đầu vào
@@ -101,7 +106,7 @@ public class CustomerPage extends JPanel {
                 JOptionPane.showMessageDialog(null, "Số điện thoại phải có đúng 10 ký tự.");
                 return;
             }
-            
+
             // Kiểm tra ID
             String id = idField.getText();
             if (id.isEmpty()) {
@@ -163,6 +168,33 @@ public class CustomerPage extends JPanel {
 
         cancelButton.addActionListener(e -> {
             loadAllCustomers();
+        });
+
+        importButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                ArrayList<CustomerDTO> importedCustomers = bus.importFromExcel(selectedFile.getPath());
+                for (CustomerDTO customer : importedCustomers) {
+                    bus.addCustomer(customer);
+                }
+                loadAllCustomers();
+            }
+        });
+
+        exportButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int returnValue = fileChooser.showSaveDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                String filePath = selectedFile.getPath();
+                // Check if the file has the .xlsx extension; if not, add it
+                if (!filePath.toLowerCase().endsWith(".xlsx")) {
+                    filePath += ".xlsx";
+                }
+                bus.exportToExcel(bus.getAllCustomers(), filePath);
+            }
         });
 
         JScrollPane scrollPane = new JScrollPane(customerTable);
