@@ -6,6 +6,7 @@ import Inventory.DTO.PromotionDTO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 public class PromotionPage extends JPanel {
@@ -13,7 +14,7 @@ public class PromotionPage extends JPanel {
     private DefaultTableModel tableModel;
     private JTable promotionTable;
     private JTextField noiDungField, phanTramGiamGiaField, searchField;
-    private JButton addButton, removeButton, searchButton, cancelButton, editButton, saveButton;
+    private JButton addButton, removeButton, searchButton, cancelButton, editButton, saveButton, exportButton;
     private PromotionBUS bus = new PromotionBUS();
     private JTextField idField = new JTextField(10); // New field for ID
     private String editingPromotionId = null; // Change this from int to String
@@ -46,6 +47,7 @@ public class PromotionPage extends JPanel {
         cancelButton = new JButton("Cancel");
         editButton = new JButton("Edit");
         saveButton = new JButton("Save");
+        exportButton = new JButton("Export");
 
         JPanel inputPanel = new JPanel();
         inputPanel.add(new JLabel("ID:"));
@@ -62,6 +64,7 @@ public class PromotionPage extends JPanel {
         inputPanel.add(searchButton);
         inputPanel.add(cancelButton);
         inputPanel.add(saveButton);
+        inputPanel.add(exportButton);
 
         addButton.addActionListener(e -> {
             // Get the id from the idField
@@ -125,6 +128,20 @@ public class PromotionPage extends JPanel {
 
         cancelButton.addActionListener(e -> {
             loadAllPromotions();
+        });
+        
+        exportButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int returnValue = fileChooser.showSaveDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                String filePath = selectedFile.getPath();
+                // Check if the file has the .xlsx extension; if not, add it
+                if (!filePath.toLowerCase().endsWith(".xlsx")) {
+                    filePath += ".xlsx";
+                }
+                bus.exportToExcel(bus.getAllPromotions(), filePath);
+            }
         });
 
         JScrollPane scrollPane = new JScrollPane(promotionTable);
