@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoAn;
+package UI.Product;
 
+import Bus.ProductBUS;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -31,7 +32,8 @@ public class HomePage extends JPanel {
     private JButton movieButton;
     private JButton assemblyButton;
     private JButton robotButton;
-    private JButton allProductButton;
+    private JButton allProductButton;    
+    private ProductBUS bus = new ProductBUS();
 
     public HomePage() {
         super();
@@ -107,8 +109,11 @@ public class HomePage extends JPanel {
         infoPanel.add(new AssemblyGUI(), "assemblyPanel");
         infoPanel.add(new RoBotGUI(), "robotPanel");
         infoPanel.add(new ProductGUI(), "allProductPanel");
-
+        
+        
     }
-    
+    public int[] getInfoProd(){
+            return bus.getInfoProd();
+        }
     
 }
