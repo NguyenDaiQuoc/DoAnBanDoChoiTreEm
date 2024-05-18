@@ -6,8 +6,10 @@ import Inventory.DTO.CustomerDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class CustomerDAO {
 
@@ -84,5 +86,31 @@ public class CustomerDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public int getInfoCus(){
+        int cusInfo = 0;
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            con = ConnectionProvider.getCon();
+            pst = con.prepareStatement("SELECT SUM(status = 1)  AS total FROM khachhang");
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                cusInfo = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Không thể truy vấn dữ liệu nhanvien!");
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pst != null) pst.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return cusInfo;
     }
 }
