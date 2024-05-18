@@ -9,11 +9,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CustomerPage extends JPanel {
+
+    JTextField idField = new JTextField(10);
     private DefaultTableModel tableModel;
     private JTable customerTable;
     private JTextField nameField, emailField, addressField, sdtField, searchField;
     private JButton addButton, removeButton, searchButton, cancelButton, editButton, saveButton;
-    private int editingCustomerId = -1; // ID của khách hàng đang được chỉnh sửa
+    private String editingCustomerId = null;
     private CustomerBUS bus = new CustomerBUS();
 
     public CustomerPage() {
@@ -50,6 +52,8 @@ public class CustomerPage extends JPanel {
         saveButton = new JButton("Save");
 
         JPanel inputPanel = new JPanel();
+        inputPanel.add(new JLabel("ID:"));
+        inputPanel.add(idField);
         inputPanel.add(new JLabel("Name:"));
         inputPanel.add(nameField);
         inputPanel.add(new JLabel("Email:"));
@@ -68,7 +72,57 @@ public class CustomerPage extends JPanel {
         inputPanel.add(saveButton);
 
         addButton.addActionListener(e -> {
-            CustomerDTO newCustomer = new CustomerDTO(0, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
+            // Kiểm tra dữ liệu đầu vào
+            if (nameField.getText().isEmpty() || emailField.getText().isEmpty() || addressField.getText().isEmpty() || sdtField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin.");
+                return;
+            }
+
+            // Kiểm tra tên khách hàng
+            if (!nameField.getText().matches("[a-zA-Z ]+")) {
+                JOptionPane.showMessageDialog(null, "Tên khách hàng không được chứa số hoặc kí tự đặc biệt. Vui lòng nhập lại.");
+                return;
+            }
+
+            // Kiểm tra email
+            if (!emailField.getText().contains("@")) {
+                JOptionPane.showMessageDialog(null, "Email phải chứa kí tự '@'. Vui lòng nhập lại.");
+                return;
+            }
+
+            // Kiểm tra số điện thoại
+            if (!sdtField.getText().matches("[0-9]+")) {
+                JOptionPane.showMessageDialog(null, "Số điện thoại chỉ được chứa số. Vui lòng nhập lại.");
+                return;
+            }
+
+            String sdt = sdtField.getText();
+            if (sdt.length() != 10) {
+                JOptionPane.showMessageDialog(null, "Số điện thoại phải có đúng 10 ký tự.");
+                return;
+            }
+            
+            // Kiểm tra ID
+            String id = idField.getText();
+            if (id.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Xin hãy nhập ID.");
+                return;
+            }
+
+            if (!id.startsWith("KH")) {
+                JOptionPane.showMessageDialog(null, "ID phải bắt đầu bằng 'KH'.");
+                return;
+            }
+
+            ArrayList<CustomerDTO> existingCustomers = bus.getAllCustomers();
+            for (CustomerDTO customer : existingCustomers) {
+                if (customer.getId().equals(id)) {
+                    JOptionPane.showMessageDialog(null, "ID đã tồn tại. Xin hãy nhập ID khác.");
+                    return;
+                }
+            }
+
+            CustomerDTO newCustomer = new CustomerDTO(id, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
             bus.addCustomer(newCustomer);
             loadAllCustomers();
         });
@@ -77,7 +131,7 @@ public class CustomerPage extends JPanel {
             int selectedRow = customerTable.getSelectedRow();
             if (selectedRow != -1) {
                 String id = customerTable.getValueAt(selectedRow, 0).toString();
-                bus.removeCustomer(Integer.parseInt(id));
+                bus.removeCustomer(id); // Change this from Integer.parseInt(id) to id
                 loadAllCustomers();
             }
         });
@@ -85,7 +139,7 @@ public class CustomerPage extends JPanel {
         editButton.addActionListener(e -> {
             int selectedRow = customerTable.getSelectedRow();
             if (selectedRow != -1) {
-                editingCustomerId = Integer.parseInt(customerTable.getValueAt(selectedRow, 0).toString());
+                editingCustomerId = customerTable.getValueAt(selectedRow, 0).toString(); // Change this from Integer.parseInt(...) to toString()
                 nameField.setText(customerTable.getValueAt(selectedRow, 1).toString());
                 emailField.setText(customerTable.getValueAt(selectedRow, 2).toString());
                 addressField.setText(customerTable.getValueAt(selectedRow, 3).toString());
@@ -94,11 +148,11 @@ public class CustomerPage extends JPanel {
         });
 
         saveButton.addActionListener(e -> {
-            if (editingCustomerId != -1) {
+            if (editingCustomerId != null) { // Change this from -1 to null
                 CustomerDTO updatedCustomer = new CustomerDTO(editingCustomerId, nameField.getText(), emailField.getText(), addressField.getText(), sdtField.getText());
                 bus.updateCustomer(updatedCustomer);
                 loadAllCustomers();
-                editingCustomerId = -1;
+                editingCustomerId = null; // Change this from -1 to null
             }
         });
 
@@ -142,6 +196,10 @@ public class CustomerPage extends JPanel {
             String[] rowData = {String.valueOf(customer.getId()), customer.getName(), customer.getEmail(), customer.getAddress(), customer.getSdt()};
             tableModel.addRow(rowData);
         }
+    }
+    
+    public int getInfoCus(){
+        return bus.getInfoCus();
     }
 
     public JTable getCustomerTable() {
