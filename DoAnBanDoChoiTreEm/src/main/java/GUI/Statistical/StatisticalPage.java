@@ -3,11 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package UI.Statistical;
+import BUS.EmployeeBUS;
+import Bus.BillBUS;
+import Bus.CustomerBUS;
+import Bus.ProductBUS;
+import Inventory.DTO.BillDTO;
 import Inventory.DTO.StaffDTO;
 import UI.Customer.CustomerPage;
 import UI.Employee.EmployeePage;
 import UI.Product.ProductPage;
 import UI.Product.HomePage;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
@@ -15,16 +21,17 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Admin
  */
-public class StatisticalPage extends javax.swing.JPanel {
+public class StatisticalPage extends javax.swing.JPanel {    
+    EmployeeBUS em = new EmployeeBUS();
+    ProductBUS prod = new ProductBUS();
+    CustomerBUS cust = new CustomerBUS();    
+    BillBUS bus = new BillBUS();
     private DefaultTableModel model;
-    private int staTotal, staLeft, staRemain, proTotal, proSold, proRemain, cusTotal, billTotal, profit, sell, buy;
-    EmployeePage em = new EmployeePage();
-    HomePage prod = new HomePage();
-    CustomerPage cust = new CustomerPage();
-    public StatisticalPage() {
-        
+    
+    public StatisticalPage() {        
         initComponents();       
         showInfo();
+        drawBillTable();
     }
     int[] staInfo = em.getInfoStaff();
     int[] prodInfo = prod.getInfoProd();
@@ -38,6 +45,16 @@ public class StatisticalPage extends javax.swing.JPanel {
         prodRemain1.setText(String.valueOf(prodInfo[1]));
         custTotal1.setText(String.valueOf(cusInfo));
     }
+    
+    public void drawBillTable(){
+        Vector header = new Vector();
+        header.add("ID");
+        header.add("Tổng tiền");
+        header.add("Ngày xuất");
+        model = new DefaultTableModel(header, 0);        
+        billTable.setModel(model);
+    }
+    
         //String [] rowData = {String.valueOf/*(this.staTotal)*/(staInfo[0]),/*String.valueOf(this.staLeft)*/String.valueOf(staInfo[1]),String.valueOf(staInfo[0] - staInfo[1])};
 
     /**
@@ -66,8 +83,15 @@ public class StatisticalPage extends javax.swing.JPanel {
         prodSold1 = new javax.swing.JLabel();
         prodRemain1 = new javax.swing.JLabel();
         custTotal1 = new javax.swing.JLabel();
-        billTotal1 = new javax.swing.JLabel();
-        prof1 = new javax.swing.JLabel();
+        billTotal = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        billTable = new javax.swing.JTable();
+        tuNgay = new javax.swing.JTextField();
+        tuNgayLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        denNgay = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
+        prof = new javax.swing.JLabel();
 
         StatisLabel.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         StatisLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -130,51 +154,109 @@ public class StatisticalPage extends javax.swing.JPanel {
         custTotal1.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         custTotal1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        billTotal1.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        billTotal1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        billTotal.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        billTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        prof1.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        prof1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        billTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(billTable);
+
+        tuNgay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tuNgayActionPerformed(evt);
+            }
+        });
+
+        tuNgayLabel.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        tuNgayLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tuNgayLabel.setText("Từ ngày");
+
+        jLabel2.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Đến ngày");
+
+        denNgay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                denNgayActionPerformed(evt);
+            }
+        });
+
+        searchButton.setText("Tìm kiếm");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        prof.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        prof.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(152, 553, Short.MAX_VALUE)
-                .addComponent(StatisLabel)
-                .addGap(522, 522, 522))
             .addGroup(layout.createSequentialGroup()
                 .addGap(72, 72, 72)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(prodSoldLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(staToTalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(staRemainLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
-                    .addComponent(staLeftLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodTotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodRemainLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(custTotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(billTotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(profLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(staTotal1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(staLeft1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(staRemain1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodTotal1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodSold1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodRemain1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(custTotal1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(billTotal1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prof1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE))
-                .addGap(204, 204, 204))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(prodSoldLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(staToTalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(staRemainLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                        .addComponent(staLeftLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(prodTotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(prodRemainLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(custTotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(billTotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tuNgayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                            .addComponent(denNgay))
+                        .addGap(18, 18, 18)
+                        .addComponent(searchButton))
+                    .addComponent(profLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(StatisLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(billTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(staTotal1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .addComponent(staLeft1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(staRemain1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prodTotal1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prodSold1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prodRemain1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(custTotal1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(447, 447, 447))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(prof, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(25, 25, 25)
                 .addComponent(StatisLabel)
-                .addGap(21, 21, 21)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -204,39 +286,91 @@ public class StatisticalPage extends javax.swing.JPanel {
                         .addComponent(custTotalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(custTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(billTotalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(billTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(profLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(prof1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(203, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)
+                        .addComponent(prof, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(billTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(billTotalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(tuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tuNgayLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(denNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(searchButton)))
+                        .addGap(18, 18, 18)
+                        .addComponent(profLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(205, Short.MAX_VALUE))
         );
     }// </editor-fold>                        
+
+    private void denNgayActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        // TODO add your handling code here:
+    }                                       
+
+    private void tuNgayActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        // TODO add your handling code here:
+    }                                      
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        // TODO add your handling code here:   
+        Vector header = new Vector();
+        header.add("ID");
+        header.add("Tổng tiền");
+        header.add("Ngày xuất");
+        long profit = 0;
+        model = new DefaultTableModel(header, 0);
+        ArrayList<BillDTO> bills = bus.getBillByDay(tuNgay.getText(), denNgay.getText());
+        for(BillDTO bill : bills){
+            String[] rowData = {String.valueOf(bill.getId()),String.valueOf(bill.getTongTien()),String.valueOf(bill.getNgayXuat())};
+            model.addRow(rowData);
+            profit += bill.getTongTien();
+        }billTable.setModel(model);
+        DecimalFormat df = new DecimalFormat("#,###");
+            String soTienDaDinhDang = df.format(profit);
+        prof.setText(soTienDaDinhDang + "đ");
+    }                                            
     
     
     
 
     // Variables declaration - do not modify                     
     private javax.swing.JLabel StatisLabel;
-    private javax.swing.JLabel billTotal1;
+    private javax.swing.JTable billTable;
+    private javax.swing.JLabel billTotal;
     private javax.swing.JLabel billTotalLabel;
     private javax.swing.JLabel custTotal1;
     private javax.swing.JLabel custTotalLabel;
+    private javax.swing.JTextField denNgay;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel prodRemain1;
     private javax.swing.JLabel prodRemainLabel;
     private javax.swing.JLabel prodSold1;
     private javax.swing.JLabel prodSoldLabel;
     private javax.swing.JLabel prodTotal1;
     private javax.swing.JLabel prodTotalLabel;
-    private javax.swing.JLabel prof1;
+    private javax.swing.JLabel prof;
     private javax.swing.JLabel profLabel;
+    private javax.swing.JButton searchButton;
     private javax.swing.JLabel staLeft1;
     private javax.swing.JLabel staLeftLabel;
     private javax.swing.JLabel staRemain1;
     private javax.swing.JLabel staRemainLabel;
     private javax.swing.JLabel staToTalLabel;
     private javax.swing.JLabel staTotal1;
+    private javax.swing.JTextField tuNgay;
+    private javax.swing.JLabel tuNgayLabel;
     // End of variables declaration                   
+    
 }
