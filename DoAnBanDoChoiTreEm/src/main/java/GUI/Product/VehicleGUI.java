@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import Bus.ProductBUS;
 import Inventory.DTO.DoChoiPhuongTien;
+import Inventory.DAO.ProductDAO;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,13 +39,11 @@ public class VehicleGUI extends JPanel {
     private ProductBUS bus = new ProductBUS();
     
     public VehicleGUI() {
-        // Gọi constructor của lớp cha (JPanel)
         super();
 
         // Sử dụng BoxLayout để căn giữa các thành phần
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Tạo JLabel với tiêu đề "Nhân viên"
         JLabel titleLabel = new JLabel("ĐỒ CHƠI PHƯƠNG TIỆN");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18)); // Đặt font và kích thước chữ
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Căn giữa theo chiều ngang
@@ -54,20 +53,18 @@ public class VehicleGUI extends JPanel {
         add(titleLabel);
         add(Box.createVerticalStrut(20)); // Khoảng cách dưới cùng
 
-        // Tạo tableModel với các cột: Name, Age, Position
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Id");
-        tableModel.addColumn("Ten");
-        tableModel.addColumn("Gia");
-        tableModel.addColumn("XuatXu");
-        tableModel.addColumn("SoLuong");
-        tableModel.addColumn("SoLuongConLai");
-        tableModel.addColumn("LoaiPhuongTien");
+        tableModel.addColumn("Tên SP");
+        tableModel.addColumn("Giá SP");
+        tableModel.addColumn("Xuất Xứ");
+        tableModel.addColumn("Số lượng");
+        tableModel.addColumn("Số lượng còn lại");
+        tableModel.addColumn("Loại phương tiện");
 
         // Khởi tạo JTable với tableModel
         productTable = new JTable(tableModel);
 
-        // Tạo các trường nhập liệu và nút thêm/xóa
         idField = new JTextField(20);
         tenField = new JTextField(10);
         giaField = new JTextField(20);
@@ -76,31 +73,30 @@ public class VehicleGUI extends JPanel {
         soLuongConLaiField = new JTextField(20);
         loaiPhuongTienField = new JTextField(20);
         searchField = new JTextField(20);
-        addButton = new JButton("Add");
-        removeButton = new JButton("Remove");
-        updateButton = new JButton("Update");
-        searchButton = new JButton("Search");
+        addButton = new JButton("Thêm");
+        removeButton = new JButton("Xóa");
+        updateButton = new JButton("Cập nhật");
+        searchButton = new JButton("Tìm kiếm");
         printButton = new JButton("Print");
-        editButton = new JButton("Edit");
+        editButton = new JButton("Chỉnh sửa");
 
-        // Tạo JPanel để chứa các trường nhập liệu và nút thêm/xóa
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(7, 2, 10, 10)); // Use a grid layout
-        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
+        inputPanel.setLayout(new GridLayout(7, 2, 5, 5)); 
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
 
-        inputPanel.add(new JLabel("Id:"));
+        inputPanel.add(new JLabel("Id"));
         inputPanel.add(idField);
-        inputPanel.add(new JLabel("Ten:"));
+        inputPanel.add(new JLabel("Tên SP"));
         inputPanel.add(tenField);
-        inputPanel.add(new JLabel("Gia:"));
+        inputPanel.add(new JLabel("Giá SP"));
         inputPanel.add(giaField);
-        inputPanel.add(new JLabel("XuatXu:"));
+        inputPanel.add(new JLabel("Xuất Xứ"));
         inputPanel.add(xuatXuField);
-        inputPanel.add(new JLabel("SoLuong:"));
+        inputPanel.add(new JLabel("Số lượng"));
         inputPanel.add(soLuongField);
-        inputPanel.add(new JLabel("SoLuongConLai:"));
+        inputPanel.add(new JLabel("Số lượng còn lại"));
         inputPanel.add(soLuongConLaiField);
-        inputPanel.add(new JLabel("LoaiPhuongTien:"));
+        inputPanel.add(new JLabel("Loại phương tiện"));
         inputPanel.add(loaiPhuongTienField);
         
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -111,7 +107,7 @@ public class VehicleGUI extends JPanel {
         buttonPanel.add(editButton);
         
         JPanel searchPanel = new JPanel(new FlowLayout());
-        searchPanel.add(new JLabel("Search:"));
+        searchPanel.add(new JLabel("Nhập từ khóa:"));
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
@@ -119,6 +115,56 @@ public class VehicleGUI extends JPanel {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Kiem tra du lieu nhap
+                if(idField.getText().isEmpty() || tenField.getText().isEmpty() || giaField.getText().isEmpty() || xuatXuField.getText().isEmpty() || soLuongField.getText().isEmpty() || soLuongConLaiField.getText().isEmpty() || loaiPhuongTienField.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!");
+                    return;
+                }
+                //Kiem tra id
+                if (!idField.getText().startsWith("10")) {
+                    JOptionPane.showMessageDialog(null, "ID phải bắt đầu bằng 10!");
+                    return;
+                }
+                if (!idField.getText().matches("\\d+")) {
+                    JOptionPane.showMessageDialog(null, "ID không được chứa kí tự đặt biệt và chữ!");
+                    return;
+                }
+                //Kiem tra gia
+                if (!giaField.getText().matches("^[\\d\\W]+$")) {
+                    JOptionPane.showMessageDialog(null, "Giá không được chứa chữ!");
+                    return;
+                }
+                //Kiem tra xuat xu
+                if (!xuatXuField.getText().matches("^[a-zA-Z]+$")) {
+                    JOptionPane.showMessageDialog(null, "Xuất xứ không được chứa kí tự đặt biệt và số!");
+                    return;
+                }
+                //Kiem tra so luong
+                if (!soLuongField.getText().matches("\\d+")) {
+                    JOptionPane.showMessageDialog(null, "Số lượng không được chứa kí tự đặt biệt và chữ!");
+                    return;
+                }
+                //Kiem tra so luong con lai
+                if (!soLuongConLaiField.getText().matches("\\d+")) {
+                    JOptionPane.showMessageDialog(null, "Số lượng còn lại không được chứa kí tự đặt biệt và chữ!");
+                    return;
+                }
+                //Kiem tra so luong con lai khong duoc lon hon so luong
+                int x = Integer.parseInt(soLuongField.getText());
+                int y = Integer.parseInt(soLuongConLaiField.getText());
+                if(y > x){
+                    JOptionPane.showMessageDialog(null, "Số lượng còn lại không được lớn hơn số lượng!");
+                    return;
+                }
+                
+                ArrayList<DoChoiPhuongTien> products = bus.getAllVehicleToys();
+                for(DoChoiPhuongTien product : products){
+                    if(product.getId().equals(idField.getText())){
+                        JOptionPane.showMessageDialog(null, "ID đã tồn tại. Xin hãy nhập lai ID!");
+                        return;
+                    }
+                }
+                
                 DoChoiPhuongTien newProduct = new DoChoiPhuongTien();
                 newProduct.setId(idField.getText());
                 newProduct.setTen(tenField.getText());
@@ -129,6 +175,7 @@ public class VehicleGUI extends JPanel {
                 newProduct.setLoaiPhuongTien(loaiPhuongTienField.getText());
                 bus.addVehicleToy(newProduct);
                 loadAllVehicleToys();
+                JOptionPane.showMessageDialog(null, "Thêm Thành Công!");
             }
         });
         
@@ -136,6 +183,7 @@ public class VehicleGUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e){
                 loadAllVehicleToys();
+                clearFields();
             }
         });
 
@@ -148,14 +196,65 @@ public class VehicleGUI extends JPanel {
                 bus.removeVehicleToy(id);
                 loadAllVehicleToys();
                 JOptionPane.showMessageDialog(null,"Xoá sản phẩm thành công!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Không có sản phẩm được chọn để xoá");
-            }
+                } 
+                else{
+                    JOptionPane.showMessageDialog(null, "Không có sản phẩm được chọn để xoá!");
+                }
             }
         });
         //Them su kien cho nut sua
         updateButton.addActionListener(new ActionListener () {
             public void actionPerformed(ActionEvent e) {
+                //Kiem tra du lieu nhap
+                if(idField.getText().isEmpty() || tenField.getText().isEmpty() || giaField.getText().isEmpty() || xuatXuField.getText().isEmpty() || soLuongField.getText().isEmpty() || soLuongConLaiField.getText().isEmpty() || loaiPhuongTienField.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm, ấn nút 'Chỉnh sửa' và nhập dữ liệu mới. Cuối cùng ấn 'Cập nhật'!");
+                    return;
+                }
+                //Kiem tra id
+                if (!idField.getText().startsWith("10")) {
+                    JOptionPane.showMessageDialog(null, "ID phải bắt đầu bằng 10!");
+                    return;
+                }
+                if (!idField.getText().matches("\\d+")) {
+                    JOptionPane.showMessageDialog(null, "ID không được chứa kí tự đặt biệt và chữ!");
+                    return;
+                }
+                //Kiem tra gia
+                if (!giaField.getText().matches("^[\\d\\W]+$")) {
+                    JOptionPane.showMessageDialog(null, "Giá không được chứa chữ!");
+                    return;
+                }
+                //Kiem tra xuat xu
+                if (!xuatXuField.getText().matches("^[a-zA-Z]+$")) {
+                    JOptionPane.showMessageDialog(null, "Xuất xứ không được chứa kí tự đặt biệt và số!");
+                    return;
+                }
+                //Kiem tra so luong
+                if (!soLuongField.getText().matches("\\d+")) {
+                    JOptionPane.showMessageDialog(null, "Số lượng không được chứa kí tự đặt biệt và chữ!");
+                    return;
+                }
+                //Kiem tra so luong con lai
+                if (!soLuongConLaiField.getText().matches("\\d+")) {
+                    JOptionPane.showMessageDialog(null, "Số lượng còn lại không được chứa kí tự đặt biệt và chữ!");
+                    return;
+                }
+                //Kiem tra so luong con lai khong duoc lon hon so luong
+                int x = Integer.parseInt(soLuongField.getText());
+                int y = Integer.parseInt(soLuongConLaiField.getText());
+                if(y > x){
+                    JOptionPane.showMessageDialog(null, "Số lượng còn lại không được lớn hơn số lượng!");
+                    return;
+                }
+                
+//                ArrayList<DoChoiPhuongTien> products = bus.getAllVehicleToys();
+//                for(DoChoiPhuongTien product : products){
+//                    if(product.getId().equals(idField.getText())){
+//                        JOptionPane.showMessageDialog(null, "ID đã tồn tại. Xin hãy nhập lai ID!");
+//                        return;
+//                    }
+//                }
+                
                 int selectedRow = productTable.getSelectedRow();
                 if(selectedRow != -1){
                     DoChoiPhuongTien newProduct = new DoChoiPhuongTien();
@@ -168,6 +267,10 @@ public class VehicleGUI extends JPanel {
                     newProduct.setLoaiPhuongTien(loaiPhuongTienField.getText());
                     bus.updateVehicleToy(newProduct);
                     loadAllVehicleToys();
+                    JOptionPane.showMessageDialog(null, "Cập Nhật Thành Công!");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Không có sản phẩm được chọn để cập nhật!");
                 }
             }
         });
@@ -184,12 +287,16 @@ public class VehicleGUI extends JPanel {
                 soLuongConLaiField.setText(productTable.getValueAt(selectedRow, 5).toString());
                 loaiPhuongTienField.setText(productTable.getValueAt(selectedRow, 6).toString());
                 }
+                else{
+                    JOptionPane.showMessageDialog(null, "Không có hàng được chọn để chỉnh sửa!");
+                }
             }
         });
         //Them sự kiện cho nút tìm kiếm
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String id = searchField.getText();
+                if(id.isEmpty()) JOptionPane.showMessageDialog(null, "Nhập từ khóa để tìm kiếm!");
                 tableModel.setRowCount(0);
                 ArrayList<DoChoiPhuongTien> products = bus.searchVehicleToysById(id);
                 for(DoChoiPhuongTien product : products){
@@ -216,6 +323,17 @@ public class VehicleGUI extends JPanel {
             String[] rowData = {product.getId(), product.getTen(), String.valueOf(product.getGia()), product.getXuatxu(), String.valueOf(product.getSoLuong()), String.valueOf(product.getSoLuongConLai()), product.getLoaiPhuongTien()};
             tableModel.addRow(rowData);
         }   
+    }
+    
+    private void clearFields() {
+        idField.setText("");
+        tenField.setText("");
+        giaField.setText("");
+        xuatXuField.setText("");
+        soLuongField.setText("");
+        soLuongConLaiField.setText("");
+        loaiPhuongTienField.setText("");
+        searchField.setText("");
     }
     
 }
