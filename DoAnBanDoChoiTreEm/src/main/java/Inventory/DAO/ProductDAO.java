@@ -385,6 +385,14 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        ProductDTO tmp = new ProductDTO();
+        tmp.setId(product.getId());
+        tmp.setTen(product.getTen());
+        tmp.setGia(product.getGia());
+        tmp.setXuatxu(product.getXuatxu());
+        tmp.setSoLuong(product.getSoLuong());
+        tmp.setSoLuongConLai(product.getSoLuongConLai());
+        addProduct(tmp);
     }
         
     public void addVehicleToy(DoChoiPhuongTien product){
@@ -403,6 +411,14 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        ProductDTO tmp = new ProductDTO();
+        tmp.setId(product.getId());
+        tmp.setTen(product.getTen());
+        tmp.setGia(product.getGia());
+        tmp.setXuatxu(product.getXuatxu());
+        tmp.setSoLuong(product.getSoLuong());
+        tmp.setSoLuongConLai(product.getSoLuongConLai());
+        addProduct(tmp);
     }
             
     public void addMovieToy(DoChoiTheoPhim product){
@@ -421,6 +437,14 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        ProductDTO tmp = new ProductDTO();
+            tmp.setId(product.getId());
+            tmp.setTen(product.getTen());
+            tmp.setGia(product.getGia());
+            tmp.setXuatxu(product.getXuatxu());
+            tmp.setSoLuong(product.getSoLuong());
+            tmp.setSoLuongConLai(product.getSoLuongConLai());
+            addProduct(tmp);
     }
     
     public void addFashionToy(DoChoiThoiTrang product){
@@ -439,6 +463,14 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        ProductDTO tmp = new ProductDTO();
+            tmp.setId(product.getId());
+            tmp.setTen(product.getTen());
+            tmp.setGia(product.getGia());
+            tmp.setXuatxu(product.getXuatxu());
+            tmp.setSoLuong(product.getSoLuong());
+            tmp.setSoLuongConLai(product.getSoLuongConLai());
+            addProduct(tmp);
     }
     
     public void addRoBotToy(RoBot product){
@@ -457,6 +489,14 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        ProductDTO tmp = new ProductDTO();
+            tmp.setId(product.getId());
+            tmp.setTen(product.getTen());
+            tmp.setGia(product.getGia());
+            tmp.setXuatxu(product.getXuatxu());
+            tmp.setSoLuong(product.getSoLuong());
+            tmp.setSoLuongConLai(product.getSoLuongConLai());
+            addProduct(tmp);
     }
     //Xoa Mot San Pham
     public void removeProduct(String id){
@@ -479,6 +519,7 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        removeProduct(id);
     }
     
     public void removeMovieToy(String id){
@@ -490,6 +531,7 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        removeProduct(id);
     }
     
     public void removeFashionToy(String id){
@@ -501,6 +543,7 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        removeProduct(id);
     }
     
     public void removeAssemblyToy(String id){
@@ -512,6 +555,7 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        removeProduct(id);
     }
     
     public void removeRoBotToy(String id){
@@ -523,6 +567,7 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        removeProduct(id);
     }
     //Cap Nhat Thong Tin San Pham Theo id San Pham
     public void updateProduct(ProductDTO product){
@@ -558,6 +603,14 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        ProductDTO tmp = new ProductDTO();
+        tmp.setId(product.getId());
+        tmp.setTen(product.getTen());
+        tmp.setGia(product.getGia());
+        tmp.setXuatxu(product.getXuatxu());
+        tmp.setSoLuong(product.getSoLuong());
+        tmp.setSoLuongConLai(product.getSoLuongConLai());
+        updateProduct(tmp);
     }
     
     public void updateMovieToy(DoChoiTheoPhim product){
@@ -576,6 +629,15 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        ProductDTO tmp = new ProductDTO();
+        tmp.setId(product.getId());
+        tmp.setTen(product.getTen());
+        tmp.setGia(product.getGia());
+        tmp.setXuatxu(product.getXuatxu());
+        tmp.setSoLuong(product.getSoLuong());
+        tmp.setSoLuongConLai(product.getSoLuongConLai());
+        updateProduct(tmp);
+        
     }
     
     public void updateFashionToy(DoChoiThoiTrang product){
@@ -594,6 +656,14 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        ProductDTO tmp = new ProductDTO();
+        tmp.setId(product.getId());
+        tmp.setTen(product.getTen());
+        tmp.setGia(product.getGia());
+        tmp.setXuatxu(product.getXuatxu());
+        tmp.setSoLuong(product.getSoLuong());
+        tmp.setSoLuongConLai(product.getSoLuongConLai());
+        updateProduct(tmp);
     }
     
     public void updateAssemblyToy(DoChoiLapGhep product){
@@ -612,6 +682,14 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        ProductDTO tmp = new ProductDTO();
+        tmp.setId(product.getId());
+        tmp.setTen(product.getTen());
+        tmp.setGia(product.getGia());
+        tmp.setXuatxu(product.getXuatxu());
+        tmp.setSoLuong(product.getSoLuong());
+        tmp.setSoLuongConLai(product.getSoLuongConLai());
+        updateProduct(tmp);
     }
  
     public void updateRoBotToy(RoBot product){
@@ -630,6 +708,14 @@ public class ProductDAO extends ProductDTO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        ProductDTO tmp = new ProductDTO();
+        tmp.setId(product.getId());
+        tmp.setTen(product.getTen());
+        tmp.setGia(product.getGia());
+        tmp.setXuatxu(product.getXuatxu());
+        tmp.setSoLuong(product.getSoLuong());
+        tmp.setSoLuongConLai(product.getSoLuongConLai());
+        updateProduct(tmp);
     }
     //KIểm tra xem sản phẩm có tồn tại ?
     public boolean checkProductExits(String nameProduct){
