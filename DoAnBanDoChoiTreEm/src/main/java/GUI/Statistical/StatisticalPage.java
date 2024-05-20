@@ -55,6 +55,24 @@ public class StatisticalPage extends javax.swing.JPanel {
         billTable.setModel(model);
     }
     
+    public void billStatis(){
+        Vector header = new Vector();
+        header.add("ID");
+        header.add("Tổng tiền");
+        header.add("Ngày xuất");
+        long profit = 0;
+        model = new DefaultTableModel(header, 0);
+        ArrayList<BillDTO> bills = bus.getBillByDay(tuNgay.getText(), denNgay.getText());
+        for(BillDTO bill : bills){
+            String[] rowData = {String.valueOf(bill.getId()),String.valueOf(bill.getTongTien()),String.valueOf(bill.getNgayXuat())};
+            model.addRow(rowData);
+            profit += bill.getTongTien();
+        }billTable.setModel(model);
+        DecimalFormat df = new DecimalFormat("#,###");
+            String soTienDaDinhDang = df.format(profit);
+        prof.setText(soTienDaDinhDang + "đ");
+    }
+    
         //String [] rowData = {String.valueOf/*(this.staTotal)*/(staInfo[0]),/*String.valueOf(this.staLeft)*/String.valueOf(staInfo[1]),String.valueOf(staInfo[0] - staInfo[1])};
 
     /**
@@ -324,21 +342,7 @@ public class StatisticalPage extends javax.swing.JPanel {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:   
-        Vector header = new Vector();
-        header.add("ID");
-        header.add("Tổng tiền");
-        header.add("Ngày xuất");
-        long profit = 0;
-        model = new DefaultTableModel(header, 0);
-        ArrayList<BillDTO> bills = bus.getBillByDay(tuNgay.getText(), denNgay.getText());
-        for(BillDTO bill : bills){
-            String[] rowData = {String.valueOf(bill.getId()),String.valueOf(bill.getTongTien()),String.valueOf(bill.getNgayXuat())};
-            model.addRow(rowData);
-            profit += bill.getTongTien();
-        }billTable.setModel(model);
-        DecimalFormat df = new DecimalFormat("#,###");
-            String soTienDaDinhDang = df.format(profit);
-        prof.setText(soTienDaDinhDang + "đ");
+        billStatis();
     }                                            
     
     
