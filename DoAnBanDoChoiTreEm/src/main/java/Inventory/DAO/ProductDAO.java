@@ -170,9 +170,14 @@ public class ProductDAO extends ProductDTO {
         ArrayList<ProductDTO> productList = new ArrayList<>();
         try {
             Connection con = ConnectionProvider.getCon();
-            String sql = "SELECT * FROM sanpham WHERE status = 1 AND id LIKE ?";
+            String sql = "SELECT * FROM sanpham WHERE status = 1 AND ( id LIKE ? OR ten LIKE ? OR gia LIKE ? OR xuatxu LIKE ? OR soLuong LIKE ? OR soLuongConLai LIKE ?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + id + "%");
+            ps.setString(2, "%" + id + "%");
+            ps.setString(3, "%" + id + "%");
+            ps.setString(4, "%" + id + "%");
+            ps.setString(5, "%" + id + "%");
+            ps.setString(6, "%" + id + "%");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 ProductDTO product = new ProductDTO();
